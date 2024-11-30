@@ -7,7 +7,13 @@ import { ApiResponse } from "../utils/ApiResponse.js"
 const generateAccessAndRefreshTokens = async(userId)=>{
     try {
         const user = await User.findById(userId)
-        
+        const accessToken = user.generateAccessToken()
+        const refreshToken = user.refreshAccessToken()
+
+        user.refreshToken = refreshToken
+        await user.save({validateBeforeSave: false})
+
+        return {accessToken, refreshToken}
     } 
     catch (error) {
         throw new ApiError(500, "Something went wrong while generating Access and Refresh Token")
@@ -118,7 +124,30 @@ const loginUser = asyncHandler(async(req,res)=>{
         throw new ApiError(401,"Pasword is Incorrect")
     }
     
+    const {accessToken, refreshToken} =  await generateAccessAndRefreshTokens(user._id)
+
+    const loggedInUser = User.findById(user._id).select("-password -refreshtoken")
+
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+
+    return res.status(200)
+    .cookie("accessToken",accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+        new ApiResponse(200, {
+            user: loggedInUser,
+            accessToken,
+            refreshToken
+        }, "User logged in successfully")
+    )
+})
+
+
+const logoutuser = asyncHandler(async(req,res)=>{
     
 })
 
-export { registerUser }
+export { registerUser, loginUser }
