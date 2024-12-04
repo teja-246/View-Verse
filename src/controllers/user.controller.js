@@ -306,6 +306,15 @@ const updateUserCoverImage = asyncHandler(async(req,res)=>{
    )
 })
 
+const getUserChannelProfile = asyncHandler(async(req,res)=>{
+    const {username} = req.params
+
+    if(!username?.trim){
+        throw new ApiError(401, "Username not found")
+    }
+
+    const user = User.find({username})
+})
 export {
     registerUser,
     loginUser,
@@ -315,5 +324,6 @@ export {
     getCurrentUser,
     updateAccountDetails,
     updateUserAvatar,
-    updateUserCoverImage
+    updateUserCoverImage,
+    getUserChannelProfile
 }
