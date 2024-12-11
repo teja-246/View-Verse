@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const AnimatedBackground = () => (
   <div className="absolute inset-0 overflow-hidden -z-10">
@@ -14,6 +15,7 @@ const AnimatedBackground = () => (
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -27,7 +29,7 @@ const AuthPage = () => {
     console.log('Form submitted:', formData);
 
     try {
-      const response = await fetch("http://localhost:8000/api/v1/users/login/", {
+      const response = await fetch("http://localhost:8000/api/v1/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,6 +39,8 @@ const AuthPage = () => {
   
       const result = await response.json();
       console.log("Server response:", result);
+
+      navigate('/main');
     } 
     catch (error) {
       console.error("Error submitting form:", error);

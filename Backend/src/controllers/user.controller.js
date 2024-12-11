@@ -135,7 +135,7 @@ const loginUser = asyncHandler(async (req, res) => {
         secure: true
     }
 
-    window.location.href = "/main"
+    // window.location.href = "/main"
 
     return res.status(200)
         .cookie("accessToken", accessToken, options)
