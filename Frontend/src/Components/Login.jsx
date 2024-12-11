@@ -22,9 +22,24 @@ const AuthPage = () => {
     confirmPassword: ''
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
+
+    try {
+      const response = await fetch("https://localhost:8000/api/v1/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      const result = await response.json();
+      console.log("Server response:", result);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -36,6 +51,7 @@ const AuthPage = () => {
   };
 
   return (
+    <div className='h-screen w-screen'>
     <div className="min-h-screen relative flex items-center justify-center p-4 bg-gray-900">
       <AnimatedBackground />
       
@@ -173,6 +189,7 @@ const AuthPage = () => {
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 };
