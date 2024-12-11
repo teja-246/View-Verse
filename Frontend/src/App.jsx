@@ -28,8 +28,8 @@ const Navbar = ({ toggleSidebar }) => {
         <div className="flex items-center gap-6">
           <Upload className="h-6 w-6 cursor-pointer hover:text-blue-500 transition-colors hidden sm:block" />
           <Bell className="h-6 w-6 cursor-pointer hover:text-blue-500 transition-colors hidden sm:block" />
-          <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center cursor-pointer">
-            <span className="text-sm font-medium">JD</span>
+          <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center cursor-pointer" >
+            <span className="text-sm font-medium">T</span>
           </div>
         </div>
       </div>
