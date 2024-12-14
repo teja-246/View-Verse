@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Search, Bell, Menu, Upload, ThumbsUp, ThumbsDown, Share2, MessageCircle, X } from 'lucide-react';
+import { Search, Menu, Upload, ThumbsUp, ThumbsDown, Share2, MessageCircle, X, CloudCog, Home } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+
+
 
 // Navbar Component
 const Navbar = ({ toggleSidebar }) => {
@@ -11,7 +14,9 @@ const Navbar = ({ toggleSidebar }) => {
             className="h-6 w-6 cursor-pointer hover:text-blue-500 transition-colors" 
             onClick={toggleSidebar}
           />
+          <Link to="/about">
           <h1 className="text-2xl font-bold">ViewVerse</h1>
+          </Link>
         </div>
         
         <div className="flex-1 max-w-2xl mx-8 hidden md:block">
@@ -27,7 +32,6 @@ const Navbar = ({ toggleSidebar }) => {
 
         <div className="flex items-center gap-6">
           <Upload className="h-6 w-6 cursor-pointer hover:text-blue-500 transition-colors hidden sm:block" />
-          <Bell className="h-6 w-6 cursor-pointer hover:text-blue-500 transition-colors hidden sm:block" />
           <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center cursor-pointer" >
             <span className="text-sm font-medium">T</span>
           </div>
@@ -36,6 +40,7 @@ const Navbar = ({ toggleSidebar }) => {
     </nav>
   );
 };
+
 
 // Sidebar Component
 const Sidebar = ({ isOpen, toggleSidebar }) => {
@@ -48,6 +53,17 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     { label: 'Liked Videos', icon: '👍' },
     { label: 'Watch Later', icon: '⏳' }
   ];
+
+  const navigate = useNavigate();
+
+  const handleSidebarElements = (item)=>{
+    console.log("sidebar clicked")
+
+    if(item.label === "Home"){
+      console.log("Home clicked")
+      navigate("/main")
+    }
+  }
 
   return (
     <>
@@ -73,7 +89,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             />
           </div>
           {menuItems.map((item, index) => (
-            <div
+            <div onClick={()=>{handleSidebarElements(item)}}
               key={index}
               className="flex items-center gap-3 p-3 hover:bg-slate-800 rounded-lg cursor-pointer mb-1"
             >
