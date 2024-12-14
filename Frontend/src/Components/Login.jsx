@@ -28,22 +28,44 @@ const AuthPage = () => {
     e.preventDefault();
     console.log('Form submitted:', formData);
 
-    try {
-      const response = await fetch("http://localhost:8000/api/v1/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+    if(isLogin){
+      try {
+        const response = await fetch("http://localhost:8000/api/v1/users/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+    
+        const result = await response.json();
+        console.log("Server response:", result);
   
-      const result = await response.json();
-      console.log("Server response:", result);
+        navigate('/main');
+      } 
+      catch (error) {
+        console.error("Error submitting form:", error);
+      }
+    }
 
-      navigate('/main');
-    } 
-    catch (error) {
-      console.error("Error submitting form:", error);
+    if(!isLogin){
+      try {
+        const response = await fetch("http://localhost:8000/api/v1/users/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+    
+        const result = await response.json();
+        console.log("Server response:", result);
+  
+        navigate('/main');
+      } 
+      catch (error) {
+        console.error("Error submitting form:", error);
+      }
     }
   };
 
