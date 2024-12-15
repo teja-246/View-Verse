@@ -1,19 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User as Userimg } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 
 const UserDetails = () => {
   const [showHoverCard, setShowHoverCard] = useState(false);
-
-  // Mock user data (replace with actual user data)
-  const user = {
-    fullName: "Jane Smith",
-    email: "jane.smith@example.com",
-    avatar: "/api/placeholder/64/64"
-  };
-
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Fetch user data from your API
+    const fetchUser = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/v1/users/current-user'); 
+        const result = await response.json();
+        if (result.data){
+          setUser(result.data);
+        }
+        console.log(user);
+        
+      } 
+      catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
   const handleCardClick = () => {
     console.log("Navigating to user details page");
     navigate("/getUserDetails")
