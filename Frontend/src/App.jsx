@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Search, Menu, Upload, ThumbsUp, ThumbsDown, Share2, MessageCircle, X, CloudCog, Home } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import UserDetails from './Components/UserDetails';
 
 
 
@@ -32,9 +33,10 @@ const Navbar = ({ toggleSidebar }) => {
 
         <div className="flex items-center gap-6">
           <Upload className="h-6 w-6 cursor-pointer hover:text-blue-500 transition-colors hidden sm:block" />
-          <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center cursor-pointer" >
+          {/* <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center cursor-pointer" >
             <span className="text-sm font-medium">T</span>
-          </div>
+          </div> */}
+          <UserDetails />
         </div>
       </div>
     </nav>

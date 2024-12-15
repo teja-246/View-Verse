@@ -6,6 +6,7 @@ import App from "./App.jsx";
 import AuthPage from "./Components/Login.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import About from "./Components/About.jsx";
+import GetuserDetails from "./Components/GetuserDetails.jsx";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: "/about",
     element: <About/>
+  },
+  {
+    path: "/getUserDetails",
+    element: <GetuserDetails />
   }
 ]);
 
