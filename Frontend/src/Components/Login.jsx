@@ -84,6 +84,8 @@ const AuthPage = () => {
       [name]: value,
     }));
   };
+  console.log(formData);
+  
 
   return (
     <div className="h-screen w-screen">
