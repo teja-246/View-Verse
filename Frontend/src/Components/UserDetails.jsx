@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { User as Userimg } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-
+import React, { useState, useEffect } from "react";
+import { User as Userimg } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const UserDetails = () => {
   const [showHoverCard, setShowHoverCard] = useState(false);
@@ -12,16 +11,26 @@ const UserDetails = () => {
     // Fetch user data from your API
     const fetchUser = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/v1/users/current-user'); 
+        const response = await fetch(
+          "http://localhost:8000/api/v1/users/current-user",
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        
+
         const result = await response.json();
-        if (result.data){
+        if (result.data) {
           setUser(result.data);
         }
-        console.log(user);
-        
-      } 
-      catch (error) {
-        console.error('Error fetching user data:', error);
+        console.log(result.data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
       }
     };
 
@@ -30,13 +39,13 @@ const UserDetails = () => {
 
   const handleCardClick = () => {
     console.log("Navigating to user details page");
-    navigate("/getUserDetails")
+    navigate("/getUserDetails");
   };
 
   return (
     <div className="relative inline-block">
       {/* Main clickable div */}
-      <div 
+      <div
         className="p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700 transition-colors"
         onMouseEnter={() => setShowHoverCard(true)}
         onMouseLeave={() => setShowHoverCard(false)}
@@ -56,7 +65,9 @@ const UserDetails = () => {
                 className="w-12 h-12 rounded-full"
               />
               <div className="flex flex-col">
-                <span className="text-gray-100 font-medium">{user.fullName}</span>
+                <span className="text-gray-100 font-medium">
+                  {user.fullName}
+                </span>
                 <span className="text-gray-400 text-sm">{user.email}</span>
               </div>
             </div>
