@@ -21,7 +21,6 @@ const AuthPage = () => {
     email: "",
     password: "",
     username: "",
-    confirmPassword: "",
   });
 
   const handleSubmit = async (e) => {
@@ -35,6 +34,7 @@ const AuthPage = () => {
             "http://localhost:8000/api/v1/users/login",
             {
               method: "POST",
+              credentials: "include",
               headers: {
                 "Content-Type": "application/json",
               },
@@ -59,6 +59,7 @@ const AuthPage = () => {
             "http://localhost:8000/api/v1/users/register",
             {
               method: "POST",
+              credentials: "include",
               headers: {
                 "Content-Type": "application/json",
               },

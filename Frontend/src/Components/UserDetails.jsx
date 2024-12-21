@@ -21,9 +21,6 @@ const UserDetails = () => {
             },
           }
         );
-
-        
-
         const result = await response.json();
         if (result.data) {
           setUser(result.data);
