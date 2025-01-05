@@ -8,7 +8,6 @@ const UserDetails = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch user data from your API
     const fetchUser = async () => {
       try {
         const response = await fetch(
@@ -26,7 +25,8 @@ const UserDetails = () => {
           setUser(result.data);
         }
         console.log(result.data);
-      } catch (error) {
+      } 
+      catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
