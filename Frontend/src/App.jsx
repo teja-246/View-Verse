@@ -3,8 +3,6 @@ import { Search, Menu, Upload, ThumbsUp, ThumbsDown, Share2, MessageCircle, X, C
 import { Link, useNavigate } from 'react-router-dom';
 import UserDetails from './Components/UserDetails';
 
-
-
 // Navbar Component
 const Navbar = ({ toggleSidebar }) => {
   return (

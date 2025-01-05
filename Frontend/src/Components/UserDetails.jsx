@@ -8,6 +8,7 @@ const UserDetails = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    
     const fetchUser = async () => {
       try {
         const response = await fetch(
