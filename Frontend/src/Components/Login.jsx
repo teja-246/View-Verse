@@ -103,7 +103,6 @@ const AuthPage = () => {
       [name]: value,
     }));
   };
-  console.log(formData);
   
 
   return (

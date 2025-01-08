@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Search, Menu, Upload, ThumbsUp, ThumbsDown, Share2, MessageCircle, X, CloudCog, Home } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import UserDetails from './Components/UserDetails';
+import LogoutButton from './Components/Logout';
 
 // Navbar Component
 const Navbar = ({ toggleSidebar }) => {
@@ -35,6 +36,7 @@ const Navbar = ({ toggleSidebar }) => {
             <span className="text-sm font-medium">T</span>
           </div> */}
           <UserDetails />
+          <LogoutButton />
         </div>
       </div>
     </nav>
