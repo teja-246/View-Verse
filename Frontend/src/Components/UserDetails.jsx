@@ -8,9 +8,11 @@ const UserDetails = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    
     const fetchUser = async () => {
       try {
+        // Check if we have any cookies before making the request
+        console.log("Current cookies:", document.cookie);
+        
         const response = await fetch(
           "http://localhost:8000/api/v1/users/current-user",
           {
@@ -21,11 +23,21 @@ const UserDetails = () => {
             },
           }
         );
+        
+        // Log the full response for debugging
+        console.log("Full response:", response);
+        
+        if (!response.ok) {
+          const errorData = await response.text();
+          console.log("Error response body:", errorData);
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const result = await response.json();
         if (result.data) {
           setUser(result.data);
         }
-        console.log(result.data);
+        console.log("Success response:", result);
       } 
       catch (error) {
         console.error("Error fetching user data:", error);
@@ -33,7 +45,7 @@ const UserDetails = () => {
     };
 
     fetchUser();
-  }, []);
+}, []);
 
   const handleCardClick = () => {
     console.log("Navigating to user details page");

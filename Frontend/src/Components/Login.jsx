@@ -30,28 +30,46 @@ const AuthPage = () => {
     {
       if (isLogin) {
         try {
-          const response = await fetch(
-            "http://localhost:8000/api/v1/users/login",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(formData),
-              credentials: "include",
+            // Log pre-login cookies
+            console.log("Cookies before login:", document.cookie);
+
+            const response = await fetch(
+                "http://localhost:8000/api/v1/users/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(formData),
+                    credentials: "include",
+                }
+            );
+
+            // Log response headers to check for Set-Cookie
+            console.log("Response headers:", Object.fromEntries(response.headers));
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error("Login failed:", errorText);
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-          );
 
-          const result = await response.json();
-          console.log("Server response:", result);
+            const result = await response.json();
+            console.log("Server response:", result);
 
-          navigate("/main");
+            // Log cookies after login
+            console.log("Cookies after login:", document.cookie);
+
+            // Add a small delay before navigation to ensure logs are visible
+            setTimeout(() => {
+                navigate("/main");
+            }, 1000);
+
         } catch (error) {
-          console.error("Error submitting form:", error);
+            console.error("Error submitting form:", error);
         }
-      }
     }
-
+  }
     {
       if (!isLogin) {
         try {
