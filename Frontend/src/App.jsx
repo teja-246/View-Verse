@@ -6,118 +6,14 @@ import {
   ThumbsUp,
   ThumbsDown,
   Share2,
-  MessageCircle,
   X,
   CloudCog,
   Home,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import UserDetails from "./Components/UserDetails";
-import LogoutButton from "./Components/Logout";
+import Navbar from "./Components/Navbar";
+import Sidebar from "./Components/Sidebar";
 
-// Navbar Component
-const Navbar = ({ toggleSidebar }) => {
-  return (
-    <nav className="sticky top-0 bg-slate-900 text-white p-4 z-50">
-      <div className="flex items-center justify-between max-w-7xl mx-auto">
-        <div className="flex items-center gap-4">
-          <Menu
-            className="h-6 w-6 cursor-pointer hover:text-blue-500 transition-colors"
-            onClick={toggleSidebar}
-          />
-          <Link to="/about">
-            <h1 className="text-2xl font-bold">ViewVerse</h1>
-          </Link>
-        </div>
-
-        <div className="flex-1 max-w-2xl mx-8 hidden md:block">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search videos..."
-              className="w-full bg-slate-800 rounded-full py-2 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-          </div>
-        </div>
-
-        <div className="flex items-center gap-6">
-          <Link to="/upload-video">
-            <Upload className="h-6 w-6 cursor-pointer hover:text-blue-500 transition-colors hidden sm:block" />
-          </Link>
-          <UserDetails />
-          <LogoutButton />
-        </div>
-      </div>
-    </nav>
-  );
-};
-
-// Sidebar Component
-const Sidebar = ({ isOpen, toggleSidebar }) => {
-  const menuItems = [
-    { label: "Home", icon: "🏠" },
-    { label: "Trending", icon: "🔥" },
-    { label: "Subscriptions", icon: "📺" },
-    { label: "Library", icon: "📚" },
-    { label: "History", icon: "⏰" },
-    { label: "Liked Videos", icon: "👍" },
-    { label: "Watch Later", icon: "⏳" },
-  ];
-
-  const navigate = useNavigate();
-
-  const handleSidebarElements = (item) => {
-    console.log("sidebar clicked");
-
-    if (item.label === "Home") {
-      console.log("Home clicked");
-      navigate("/main");
-    }
-  };
-
-  return (
-    <>
-      {/* Overlay for mobile */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
-          onClick={toggleSidebar}
-        />
-      )}
-
-      {/* Sidebar */}
-      <aside
-        className={`
-        w-64 bg-slate-900 text-white h-screen fixed top-16 z-50
-        transition-transform duration-300 ease-in-out
-        ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
-      `}
-      >
-        <div className="p-4">
-          <div className="flex justify-end lg:hidden mb-4">
-            <X
-              className="h-6 w-6 cursor-pointer hover:text-blue-500 transition-colors"
-              onClick={toggleSidebar}
-            />
-          </div>
-          {menuItems.map((item, index) => (
-            <div
-              onClick={() => {
-                handleSidebarElements(item);
-              }}
-              key={index}
-              className="flex items-center gap-3 p-3 hover:bg-slate-800 rounded-lg cursor-pointer mb-1"
-            >
-              <span className="text-xl">{item.icon}</span>
-              <span className="text-sm">{item.label}</span>
-            </div>
-          ))}
-        </div>
-      </aside>
-    </>
-  );
-};
 
 // VideoCard Component remains the same
 const VideoCard = ({ thumbnail, title, channel, views, timestamp }) => {
