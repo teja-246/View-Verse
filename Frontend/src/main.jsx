@@ -8,6 +8,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import About from "./Components/About.jsx";
 import Login from "./Components/Login.jsx";
 import GetuserDetails from "./Components/GetuserDetails.jsx";
+import VideoUploadPage from "./Components/Upload-Video.jsx";
+import { Video } from "lucide-react";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +31,11 @@ const router = createBrowserRouter([
   {
     path: "/getUserDetails",
     element: <GetuserDetails />
-  }
+  },
+  {
+    path: "/upload-video",
+    element: <VideoUploadPage />,
+  },
 ]);
 
 createRoot(document.getElementById("root")).render(

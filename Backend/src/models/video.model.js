@@ -18,11 +18,11 @@ const videoSchema = new Schema(
         },
         description: {
             type: String,
-            required: true,
+            default: "No description provided",
         },
         duration: {
             type: Number,
-            required: true,
+            // required: true,
         },
         views: {
             type: Number,

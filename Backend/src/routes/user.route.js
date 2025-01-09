@@ -12,11 +12,17 @@ import {
     getUserChannelProfile,
     getWatchHistory
 } from '../controllers/user.controller.js'
+import {
+    uploadVideo,
+    getVideo,
+    deleteVideo,
+    editVideo
+} from "../controllers/video.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router()
-
+// User routes
 router.route("/register").post(
     upload.fields([
         {
@@ -39,5 +45,22 @@ router.route("/avatar").patch(verifyJWT, upload.single("avatar"), updateUserAvat
 router.route("/cover-image").patch(verifyJWT, upload.single("coverImage"), updateUserCoverImage)
 router.route("/c/:username").get(verifyJWT, getUserChannelProfile)
 router.route("/history").get(verifyJWT, getWatchHistory)
+
+// Video Routes
+router.route("/upload-video").post(verifyJWT, upload.fields([
+    {
+        name: "videoFile",
+        maxCount: 1
+    },
+    {
+        name: "thumbnail",
+        maxCount: 1
+    }
+]), uploadVideo)
+router.route("/get-video/:id").get(getVideo)
+router.route("/delete-video/:id").delete(verifyJWT, deleteVideo)
+router.route("/edit-video/:id").patch(verifyJWT, editVideo)
+
+
 
 export default router

@@ -1,8 +1,19 @@
-import React, { useState } from 'react';
-import { Search, Menu, Upload, ThumbsUp, ThumbsDown, Share2, MessageCircle, X, CloudCog, Home } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
-import UserDetails from './Components/UserDetails';
-import LogoutButton from './Components/Logout';
+import React, { useState } from "react";
+import {
+  Search,
+  Menu,
+  Upload,
+  ThumbsUp,
+  ThumbsDown,
+  Share2,
+  MessageCircle,
+  X,
+  CloudCog,
+  Home,
+} from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import UserDetails from "./Components/UserDetails";
+import LogoutButton from "./Components/Logout";
 
 // Navbar Component
 const Navbar = ({ toggleSidebar }) => {
@@ -10,15 +21,15 @@ const Navbar = ({ toggleSidebar }) => {
     <nav className="sticky top-0 bg-slate-900 text-white p-4 z-50">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         <div className="flex items-center gap-4">
-          <Menu 
-            className="h-6 w-6 cursor-pointer hover:text-blue-500 transition-colors" 
+          <Menu
+            className="h-6 w-6 cursor-pointer hover:text-blue-500 transition-colors"
             onClick={toggleSidebar}
           />
           <Link to="/about">
-          <h1 className="text-2xl font-bold">ViewVerse</h1>
+            <h1 className="text-2xl font-bold">ViewVerse</h1>
           </Link>
         </div>
-        
+
         <div className="flex-1 max-w-2xl mx-8 hidden md:block">
           <div className="relative">
             <input
@@ -31,10 +42,9 @@ const Navbar = ({ toggleSidebar }) => {
         </div>
 
         <div className="flex items-center gap-6">
-          <Upload className="h-6 w-6 cursor-pointer hover:text-blue-500 transition-colors hidden sm:block" />
-          {/* <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center cursor-pointer" >
-            <span className="text-sm font-medium">T</span>
-          </div> */}
+          <Link to="/upload-video">
+            <Upload className="h-6 w-6 cursor-pointer hover:text-blue-500 transition-colors hidden sm:block" />
+          </Link>
           <UserDetails />
           <LogoutButton />
         </div>
@@ -43,55 +53,59 @@ const Navbar = ({ toggleSidebar }) => {
   );
 };
 
-
 // Sidebar Component
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const menuItems = [
-    { label: 'Home', icon: '🏠' },
-    { label: 'Trending', icon: '🔥' },
-    { label: 'Subscriptions', icon: '📺' },
-    { label: 'Library', icon: '📚' },
-    { label: 'History', icon: '⏰' },
-    { label: 'Liked Videos', icon: '👍' },
-    { label: 'Watch Later', icon: '⏳' }
+    { label: "Home", icon: "🏠" },
+    { label: "Trending", icon: "🔥" },
+    { label: "Subscriptions", icon: "📺" },
+    { label: "Library", icon: "📚" },
+    { label: "History", icon: "⏰" },
+    { label: "Liked Videos", icon: "👍" },
+    { label: "Watch Later", icon: "⏳" },
   ];
 
   const navigate = useNavigate();
 
-  const handleSidebarElements = (item)=>{
-    console.log("sidebar clicked")
+  const handleSidebarElements = (item) => {
+    console.log("sidebar clicked");
 
-    if(item.label === "Home"){
-      console.log("Home clicked")
-      navigate("/main")
+    if (item.label === "Home") {
+      console.log("Home clicked");
+      navigate("/main");
     }
-  }
+  };
 
   return (
     <>
       {/* Overlay for mobile */}
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
           onClick={toggleSidebar}
         />
       )}
 
       {/* Sidebar */}
-      <aside className={`
+      <aside
+        className={`
         w-64 bg-slate-900 text-white h-screen fixed top-16 z-50
         transition-transform duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-      `}>
+        ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+      `}
+      >
         <div className="p-4">
           <div className="flex justify-end lg:hidden mb-4">
-            <X 
-              className="h-6 w-6 cursor-pointer hover:text-blue-500 transition-colors" 
+            <X
+              className="h-6 w-6 cursor-pointer hover:text-blue-500 transition-colors"
               onClick={toggleSidebar}
             />
           </div>
           {menuItems.map((item, index) => (
-            <div onClick={()=>{handleSidebarElements(item)}}
+            <div
+              onClick={() => {
+                handleSidebarElements(item);
+              }}
               key={index}
               className="flex items-center gap-3 p-3 hover:bg-slate-800 rounded-lg cursor-pointer mb-1"
             >
@@ -142,29 +156,29 @@ const VideoGrid = () => {
       title: "Understanding React Hooks in 2024 - Complete Guide",
       channel: "TechMaster",
       views: "120K",
-      timestamp: "2 days ago"
+      timestamp: "2 days ago",
     },
     {
       thumbnail: "/api/placeholder/320/180",
       title: "The Future of AI - What to Expect in the Next Decade",
       channel: "FutureTech",
       views: "89K",
-      timestamp: "1 week ago"
+      timestamp: "1 week ago",
     },
     {
       thumbnail: "/api/placeholder/320/180",
       title: "Urban Photography Tips & Tricks",
       channel: "PixelPro",
       views: "45K",
-      timestamp: "3 days ago"
+      timestamp: "3 days ago",
     },
     {
       thumbnail: "/api/placeholder/320/180",
       title: "Easy Vegan Recipes for Beginners",
       channel: "VeganChef",
       views: "67K",
-      timestamp: "5 days ago"
-    }
+      timestamp: "5 days ago",
+    },
   ];
 
   return (
@@ -196,7 +210,7 @@ const VideoPlayer = () => {
           <h1 className="text-2xl font-bold text-white mb-4">
             Understanding React Hooks in 2024 - Complete Guide
           </h1>
-          
+
           <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-700 pb-4 gap-4">
             <div className="flex items-center gap-4">
               <div className="h-12 w-12 rounded-full bg-blue-500 flex items-center justify-center">
@@ -215,7 +229,7 @@ const VideoPlayer = () => {
               <div className="flex items-center bg-slate-800 rounded-full">
                 <button
                   className={`flex items-center gap-2 px-4 py-2 rounded-l-full ${
-                    isLiked ? 'text-blue-500' : 'text-white'
+                    isLiked ? "text-blue-500" : "text-white"
                   }`}
                   onClick={() => {
                     setIsLiked(!isLiked);
@@ -227,7 +241,7 @@ const VideoPlayer = () => {
                 </button>
                 <button
                   className={`flex items-center gap-2 px-4 py-2 rounded-r-full border-l border-slate-700 ${
-                    isDisliked ? 'text-blue-500' : 'text-white'
+                    isDisliked ? "text-blue-500" : "text-white"
                   }`}
                   onClick={() => {
                     setIsDisliked(!isDisliked);
@@ -249,9 +263,10 @@ const VideoPlayer = () => {
             <div className="text-gray-300 text-sm">
               <p className="mb-2">120K views · 2 days ago</p>
               <p>
-                In this comprehensive guide, we'll dive deep into React Hooks and
-                explore how they've evolved in 2024. Learn best practices,
-                performance optimization techniques, and real-world applications.
+                In this comprehensive guide, we'll dive deep into React Hooks
+                and explore how they've evolved in 2024. Learn best practices,
+                performance optimization techniques, and real-world
+                applications.
               </p>
             </div>
           </div>
