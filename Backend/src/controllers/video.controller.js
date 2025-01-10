@@ -35,12 +35,17 @@ const uploadVideo = asyncHandler(async (req, res) => {
     return res.json(new ApiResponse(200, "Video uploaded successfully", video))
 });
 
-const getVideo = asyncHandler(async (req, res) => {
+const getRequiredVideo = asyncHandler(async (req, res) => {
     const video = await Video.findById(req.params.id).populate("owner", "username avatar")
     if (!video) {
         throw new ApiError(404, "Video not found")
     }
     return res.json(new ApiResponse(200, "Video retrieved successfully", video))
+})
+
+const getVideos = asyncHandler(async (req, res) => {
+    const videos = await Video.find().populate("owner", "username avatar")
+    return res.json(new ApiResponse(200, videos, "Videos retrieved successfully"))
 })
 
 const deleteVideo = asyncHandler(async (req, res) => {
@@ -70,4 +75,4 @@ const editVideo = asyncHandler(async (req, res) => {
     return res.json(new ApiResponse(200, "Video updated successfully", video))
 })
 
-export { uploadVideo, getVideo, deleteVideo, editVideo }
+export { uploadVideo, getRequiredVideo, deleteVideo, editVideo, getVideos }

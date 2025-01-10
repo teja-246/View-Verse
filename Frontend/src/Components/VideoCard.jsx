@@ -1,6 +1,8 @@
 import React from 'react'
 
-const VideoCard = ({ thumbnail, title, channel, views, timestamp }) => {
+const VideoCard = ({ thumbnail, title, username }) => {
+
+
     return (
       <div className="bg-slate-800 rounded-lg overflow-hidden hover:scale-105 transition-transform cursor-pointer">
         <div className="relative pb-[56.25%]">
@@ -14,12 +16,12 @@ const VideoCard = ({ thumbnail, title, channel, views, timestamp }) => {
           <h3 className="text-white font-semibold mb-2 line-clamp-2">{title}</h3>
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center">
-              <span className="text-white text-sm">{channel[0]}</span>
+              <span className="text-white text-sm">{username}</span>
             </div>
             <div>
-              <p className="text-gray-300 text-sm">{channel}</p>
+              <p className="text-gray-300 text-sm">{username}</p>
               <p className="text-gray-400 text-xs">
-                {views} views · {timestamp}
+                views views · timestamp
               </p>
             </div>
           </div>
@@ -28,4 +30,4 @@ const VideoCard = ({ thumbnail, title, channel, views, timestamp }) => {
     );
   };
 
-export default VideoCard
+export default VideoCard;

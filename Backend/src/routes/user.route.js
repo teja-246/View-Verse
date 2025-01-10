@@ -14,9 +14,10 @@ import {
 } from '../controllers/user.controller.js'
 import {
     uploadVideo,
-    getVideo,
+    getRequiredVideo,
     deleteVideo,
-    editVideo
+    editVideo,
+    getVideos
 } from "../controllers/video.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -57,7 +58,8 @@ router.route("/upload-video").post(verifyJWT, upload.fields([
         maxCount: 1
     }
 ]), uploadVideo)
-router.route("/get-video/:id").get(getVideo)
+router.route("/get-required-video/:id").get(getRequiredVideo)
+router.route("/get-videos").get(getVideos)
 router.route("/delete-video/:id").delete(verifyJWT, deleteVideo)
 router.route("/edit-video/:id").patch(verifyJWT, editVideo)
 
