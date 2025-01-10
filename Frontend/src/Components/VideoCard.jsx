@@ -1,10 +1,16 @@
 import React from 'react'
 
-const VideoCard = ({ thumbnail, title, username }) => {
 
+
+const VideoCard = ({ videoFile, thumbnail, title, username, avatar }) => {
+    const handleClick = () => {
+      console.log("Video Clicked");
+      console.log(title);
+      
+    }
 
     return (
-      <div className="bg-slate-800 rounded-lg overflow-hidden hover:scale-105 transition-transform cursor-pointer">
+      <div className="bg-slate-800 rounded-lg overflow-hidden hover:scale-105 transition-transform cursor-pointer" onClick={handleClick}>
         <div className="relative pb-[56.25%]">
           <img
             src={thumbnail}
@@ -16,7 +22,7 @@ const VideoCard = ({ thumbnail, title, username }) => {
           <h3 className="text-white font-semibold mb-2 line-clamp-2">{title}</h3>
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center">
-              <span className="text-white text-sm">{username}</span>
+              <img src={avatar} alt="avatar" className='h-8 w-8 rounded-full' />
             </div>
             <div>
               <p className="text-gray-300 text-sm">{username}</p>
