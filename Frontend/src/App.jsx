@@ -13,7 +13,7 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-slate-950 min-w-full">
       <Navbar toggleSidebar={toggleSidebar} />
       <div className="flex pt-16">
         <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />

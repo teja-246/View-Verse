@@ -3,12 +3,6 @@ import {
     Search,
     Menu,
     Upload,
-    ThumbsUp,
-    ThumbsDown,
-    Share2,
-    X,
-    CloudCog,
-    Home,
   } from "lucide-react";
 import { Link } from "react-router-dom";
 import UserDetails from "./UserDetails";

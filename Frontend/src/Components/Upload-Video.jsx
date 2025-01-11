@@ -7,7 +7,7 @@ const VideoUploadPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         alert('Video uploaded successfully!');
-        navigate('/'); // Redirect to the main page or another route after submission
+        navigate('/main'); 
     };
 
     return (
