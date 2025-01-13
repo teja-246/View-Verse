@@ -60,7 +60,7 @@ const VideoPlayer = () => {
   };
 
   return (
-    <div className="mx-auto px-4 py-6 mr-7">
+    <div className="bg-slate-950 mx-auto px-4 py-6 mr-7">
       <div className="bg-slate-900 rounded-lg overflow-hidden">
         <div className="relative pb-[56.25%] bg-black">
           {showThumbnail ? (
