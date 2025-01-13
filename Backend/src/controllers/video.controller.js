@@ -40,7 +40,7 @@ const getRequiredVideo = asyncHandler(async (req, res) => {
     if (!video) {
         throw new ApiError(404, "Video not found")
     }
-    return res.json(new ApiResponse(200, "Video retrieved successfully", video))
+    return res.json(new ApiResponse(200, video, "Video retrieved successfully"))
 })
 
 const getVideos = asyncHandler(async (req, res) => {

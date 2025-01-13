@@ -10,6 +10,7 @@ import Login from "./Components/Login.jsx";
 import GetuserDetails from "./Components/GetuserDetails.jsx";
 import VideoUploadPage from "./Components/Upload-Video.jsx";
 import { Video } from "lucide-react";
+import VideoPlayer from "./Components/VideoPlayer.jsx";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/upload-video",
     element: <VideoUploadPage />,
+  },
+  {
+    path: "/get-required-video/:id",
+    element: <VideoPlayer />,
   },
 ]);
 

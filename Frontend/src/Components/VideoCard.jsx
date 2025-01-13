@@ -1,12 +1,14 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
 
+const VideoCard = ({ videoFile, videoId, thumbnail, title, username, avatar }) => {
+  const navigate = useNavigate();
 
-const VideoCard = ({ videoFile, thumbnail, title, username, avatar }) => {
     const handleClick = () => {
       console.log("Video Clicked");
       console.log(title);
-      
+      navigate(`/get-required-video/${videoId}`);
     }
 
     return (
