@@ -10,7 +10,7 @@ const UserDetails = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        console.log("Current cookies:", document.cookie);
+        // console.log("Current cookies:", document.cookie);
 
         const response = await fetch(
           "http://localhost:8000/api/v1/users/current-user",
@@ -24,7 +24,7 @@ const UserDetails = () => {
         );
 
         // Log the full response for debugging
-        console.log("Full response:", response);
+        // console.log("Full response:", response);
 
         if (!response.ok) {
           const errorData = await response.text();
@@ -36,7 +36,7 @@ const UserDetails = () => {
         if (result.data) {
           setUser(result.data);
         }
-        console.log("Success response:", result);
+        // console.log("Success response:", result);
       } catch (error) {
         console.error("Error fetching user data:", error);
         const defaultUser = { fullName: "Guest User", email: "Login to view details" };
