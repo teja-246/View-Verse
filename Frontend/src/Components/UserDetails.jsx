@@ -10,7 +10,7 @@ const UserDetails = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        console.log("Current cookies:", document.cookie);
+        // console.log("Current cookies:", document.cookie);
 
         const response = await fetch(
           "http://localhost:8000/api/v1/users/current-user",
