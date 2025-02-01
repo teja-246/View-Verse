@@ -15,12 +15,12 @@ const App = () => {
   return (
     <div className="min-h-screen bg-slate-950 min-w-full">
       <Navbar toggleSidebar={toggleSidebar} />
-      <div className="flex pt-16">
+      <div className="flex pt-4">
         <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
         <main className="w-full lg:ml-64 transition-all duration-300">
-          <VideoPlayer />
-          <h2 className="text-white text-xl font-semibold px-6 mt-6">
-            Recommended Videos
+          {/* <VideoPlayer /> */}
+          <h2 className="text-white text-xl font-semibold px-6">
+            {/* Recommended Videos */}
           </h2>
           <VideoGrid />
         </main>

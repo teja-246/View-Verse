@@ -20,7 +20,6 @@ const VideoGrid = () => {
           }
         );
         const data = await response.json();
-        // console.log(data);
         setvideos(data.data);
       } catch (error) {
         console.error(error);
@@ -29,7 +28,6 @@ const VideoGrid = () => {
     fetchVideos();
   }, []);
 
-  // console.log(videos);
   
   
   return (

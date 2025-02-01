@@ -37,7 +37,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         {/* Sidebar */}
         <aside
           className={`
-          w-64 bg-slate-900 text-white h-screen fixed top-16 z-50
+          w-60 bg-slate-900 text-white h-screen fixed top-16 z-50
           transition-transform duration-300 ease-in-out
           ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         `}
@@ -58,7 +58,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                 className="flex items-center gap-3 p-3 hover:bg-slate-800 rounded-lg cursor-pointer mb-1"
               >
                 <span className="text-xl">{item.icon}</span>
-                <span className="text-sm">{item.label}</span>
+                <span className="text-lg">{item.label}</span>
               </div>
             ))}
           </div>
