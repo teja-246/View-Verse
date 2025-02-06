@@ -14,12 +14,14 @@ const VideoPlayer = () => {
   const [video, setVideo] = useState();
   const location = useLocation();
 
+  const Url = import.meta.env.VITE_API_URL;
+
   const { id } = useParams();
   useEffect(() => {
     const fetchVideo = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/api/v1/users/get-required-video/${id}`,
+          `${Url}/get-required-video/${id}`,
           {
             method: "GET",
             headers: {

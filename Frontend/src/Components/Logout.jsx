@@ -4,9 +4,11 @@ import { useNavigate } from "react-router-dom";
 const LogoutButton = () => {
   const navigate = useNavigate();
   
+  const Url = import.meta.env.VITE_API_URL;
+
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/v1/users/logout", {
+      const response = await fetch(`${Url}/logout`, {
         method: "POST",
         credentials: "include",
       });

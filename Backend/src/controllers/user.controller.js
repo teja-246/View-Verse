@@ -103,6 +103,8 @@ const loginUser = asyncHandler(async (req, res) => {
     //check password
     //access refresh tokens
     //send cookies
+    console.log('Login request received');
+    console.log('Request headers:', req.headers);
 
     const { email, username, password } = req.body
 
@@ -130,13 +132,18 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const loggedInUser = await User.findById(user._id).select("-password -refreshtoken")
 
+    console.log('Setting cookies...');
+
     const options = {
         httpOnly: true,
         secure: false,
         sameSite: 'lax',
         path: "/",
+        // domain: '.onrender.com',  // Add this line
         maxAge: 7 * 24 * 60 * 60 * 1000
     }
+    
+    console.log('Response headers:', res.getHeaders());
 
     return res.status(200)
         .cookie("accessToken", accessToken, options)
@@ -147,7 +154,7 @@ const loginUser = asyncHandler(async (req, res) => {
                 accessToken,
                 refreshToken
             }, "User logged in successfully")
-        )  
+        )
 })
 
 const logoutUser = asyncHandler(async (req, res) => {

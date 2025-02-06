@@ -9,6 +9,8 @@ const VideoUploadPage = () => {
     const [thumbnail, setThumbnail] = useState(null);
     const [loading, setLoading] = useState(false);
 
+    const Url = import.meta.env.VITE_API_URL;
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
@@ -20,7 +22,7 @@ const VideoUploadPage = () => {
         formData.append("thumbnail", thumbnail);
 
         try {
-            const response = await fetch("http://localhost:8000/api/v1/users/upload-video", {
+            const response = await fetch(`${Url}/upload-video`, {
                 method: "POST",
                 credentials: "include",
                 body: formData,

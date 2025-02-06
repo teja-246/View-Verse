@@ -7,11 +7,13 @@ const VideoGrid = () => {
   
   const [videos, setvideos] = useState([]);
 
+  const Url = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const fetchVideos = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8000/api/v1/users/get-videos",
+          `${Url}/get-videos`,
           {
             method: "GET",
             headers: {
