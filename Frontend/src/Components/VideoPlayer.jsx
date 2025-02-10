@@ -6,6 +6,8 @@ import { useParams } from "react-router-dom";
 import VideoGrid from "./VideoGrid";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
+// import ShareButton from "./ShareButton";
+import ButtonShare from "./button_share";
 
 const VideoPlayer = () => {
   const [isLiked, setIsLiked] = useState(false);
@@ -45,6 +47,11 @@ const VideoPlayer = () => {
       setShowThumbnail(false);
     }, 2000);
     return () => clearTimeout(timer);
+  }, []);
+
+  const [shareUrl, setShareUrl] = useState("");
+  useEffect(() => {
+    setShareUrl(window.location.href); // Set the current URL after mount
   }, []);
 
   const defaultVideo = {
@@ -147,8 +154,9 @@ const VideoPlayer = () => {
                     </div>
 
                     <button className="flex items-center gap-2 bg-slate-800 text-white px-4 py-2 rounded-full">
-                      <Share2 className="h-5 w-5" />
-                      <span>Share</span>
+                      {/* <Share2 className="h-5 w-5" />
+                      <span>Share</span> */}
+                      <ButtonShare shareUrl={shareUrl} />
                     </button>
                   </div>
                 </div>
