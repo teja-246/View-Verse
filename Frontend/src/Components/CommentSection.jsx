@@ -1,29 +1,78 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const CommentSection = () => {
+const CommentSection = ({videoId}) => {
   const [expanded, setExpanded] = useState(false);
   const [comments, setComments] = useState([
-    { name: "Teja", text: "This is an amazing video!" },
-    { name: "Aryan", text: "Great content, keep it up!" },
-    { name: "Priya", text: "I learned a lot from this, thanks!" },
-    { name: "Rahul", text: "Can you make a tutorial on this topic?" },
-    { name: "Neha", text: "Awesome work!" },
+    // { name: "Teja", text: "This is an amazing video!" },
+    // { name: "Aryan", text: "Great content, keep it up!" },
+    // { name: "Priya", text: "I learned a lot from this, thanks!" },
+    // { name: "Rahul", text: "Can you make a tutorial on this topic?" },
+    { owner: "", content: "" },
   ]);
   const [newComment, setNewComment] = useState("");
 
-  const handlePostComment = () => {
+  useEffect(() => {
+    const fetchComments = async () => {
+        try {
+            const response = await fetch(`http://localhost:8000/api/v1/users/get-comments/${videoId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                  },
+                });
+            const data = await response.json();
+
+            if (data.success) {
+                setComments(data.data);
+            } else {
+                console.error("Failed to fetch comments:", data.message);
+            }
+        } catch (error) {
+            console.error("Error fetching comments:", error);
+        }
+    };
+
+    fetchComments();
+}, [videoId]);
+
+  const handlePostComment = async() => {
     if (newComment.trim()) {
-      setComments([{ name: "You", text: newComment }, ...comments]);
+      setComments([{ owner: {username : "You"} , content: newComment }, ...comments]);
       setNewComment("");
+    }
+
+    try {
+      const response = await fetch(`http://localhost:8000/api/v1/users/add-comment/${videoId}`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content: newComment }),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const result = await response.json();
+      console.log("Comment added:", result);
+    } catch (error) {
+      console.error("Error adding comment:", error);
     }
   };
 
   return (
     <div className="w-full max-w-lg mx-auto mt-4">
       <div className="bg-slate-900 p-4 rounded-lg transition-all duration-300 text-white text-lg">
-        <div className="flex justify-between items-center cursor-pointer" onClick={() => setExpanded(!expanded)}>
+        <div
+          className="flex justify-between items-center cursor-pointer"
+          onClick={() => setExpanded(!expanded)}
+        >
           <div className="font-semibold text-white">Comments</div>
-          <div className="text-sm text-gray-400">{expanded ? "View less" : "Click to view all comments"}</div>
+          <div className="text-sm text-gray-400">
+            {expanded ? "View less" : "Click to view all comments"}
+          </div>
         </div>
         <div className="mt-2 mb-3 flex items-center space-x-2">
           <textarea
@@ -41,14 +90,21 @@ const CommentSection = () => {
           </button>
         </div>
         {!expanded ? (
-          <div className="mt-2 text-white cursor-pointer" onClick={() => setExpanded(true)}>
-            {comments[0].name}: {comments[0].text}
+          <div
+            className="mt-2 text-white cursor-pointer"
+            onClick={() => setExpanded(true)}
+          >
+            {comments[0].owner.username}: {comments[0].content}
           </div>
         ) : (
           <div className="mt-2 space-y-3 overflow-y-auto h-48">
             {comments.map((comment, index) => (
-              <div key={index} className="bg-slate-800 p-3 rounded shadow text-white">
-                <span className="font-bold">{comment.name}:</span> {comment.text}
+              <div
+                key={index}
+                className="bg-slate-800 p-3 rounded shadow text-white"
+              >
+                <span className="font-bold">{comment.owner.username}:</span>{" "}
+                {comment.content}
               </div>
             ))}
           </div>

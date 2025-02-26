@@ -3,6 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js"
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { Video } from "../models/video.model.js";
+import { Comment } from "../models/comment.model.js";
 
 const uploadVideo = asyncHandler(async (req, res) => {
     const { title, description } = req.body;
@@ -75,4 +76,30 @@ const editVideo = asyncHandler(async (req, res) => {
     return res.json(new ApiResponse(200, "Video updated successfully", video))
 })
 
-export { uploadVideo, getRequiredVideo, deleteVideo, editVideo, getVideos }
+const addComment = asyncHandler(async (req, res) => {
+    const video = await Video.findById(req.params.id)
+    if (!video) {
+        throw new ApiError(404, "Video not found")
+    }
+    if (!req.body.content || req.body.content.trim() === "") {
+        throw new ApiError(400, "Content is required");
+    }
+    const comment = new Comment({
+        content: req.body.content,
+        video: video._id,
+        owner: req.user._id
+    })
+    await comment.save()
+    return res.json(new ApiResponse(200, video, "Comment added successfully"))
+})
+
+const getComments = asyncHandler(async (req, res) => {
+    const video = await Video.findById(req.params.id)
+    if (!video) {
+        throw new ApiError(404, "Video not found")
+    }
+    const comments = await Comment.find({ video: video._id }).populate("owner", "username avatar")
+    return res.json(new ApiResponse(200, comments, "Comments retrieved successfully"))
+})
+
+export { uploadVideo, getRequiredVideo, deleteVideo, editVideo, getVideos, addComment, getComments }

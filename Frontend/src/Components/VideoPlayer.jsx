@@ -175,7 +175,7 @@ const VideoPlayer = () => {
                 </div>
               </div>
 
-              <CommentSection />
+              <CommentSection videoId={video?._id} />
               <div className="w-full lg:ml-64 transition-all duration-300">
                 <h2 className="text-white text-xl font-semibold px-6 mt-6">
                   Watch more

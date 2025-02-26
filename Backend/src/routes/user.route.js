@@ -17,7 +17,9 @@ import {
     getRequiredVideo,
     deleteVideo,
     editVideo,
-    getVideos
+    getVideos,
+    addComment,
+    getComments
 } from "../controllers/video.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -62,6 +64,8 @@ router.route("/get-required-video/:id").get(getRequiredVideo)
 router.route("/get-videos").get(getVideos)
 router.route("/delete-video/:id").delete(verifyJWT, deleteVideo)
 router.route("/edit-video/:id").patch(verifyJWT, editVideo)
+router.route("/add-comment/:id").post(verifyJWT, addComment)
+router.route("/get-comments/:id").get(getComments)
 
 
 
