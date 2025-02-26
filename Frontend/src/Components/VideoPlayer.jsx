@@ -6,8 +6,8 @@ import { useParams } from "react-router-dom";
 import VideoGrid from "./VideoGrid";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
-// import ShareButton from "./ShareButton";
 import ButtonShare from "./button_share";
+import CommentSection from "./CommentSection";
 
 const VideoPlayer = () => {
   const [isLiked, setIsLiked] = useState(false);
@@ -151,6 +151,7 @@ const VideoPlayer = () => {
                         <ThumbsDown className="h-5 w-5" />
                         <span>Dislike</span>
                       </button>
+                      
                     </div>
 
                     <button className="flex items-center gap-2 bg-slate-800 text-white px-4 py-2 rounded-full">
@@ -173,6 +174,8 @@ const VideoPlayer = () => {
                   </div>
                 </div>
               </div>
+
+              <CommentSection />
               <div className="w-full lg:ml-64 transition-all duration-300">
                 <h2 className="text-white text-xl font-semibold px-6 mt-6">
                   Watch more

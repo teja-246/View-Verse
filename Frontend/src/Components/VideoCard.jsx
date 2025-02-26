@@ -8,6 +8,7 @@ const VideoCard = ({ videoFile, videoId, thumbnail, title, username, avatar }) =
     const handleClick = () => {
       console.log("Video Clicked");
       console.log(title);
+      window.scrollTo({ top: 0, behavior: "smooth" });
       navigate(`/get-required-video/${videoId}`);
     }
 
