@@ -3,10 +3,6 @@ import { useState, useEffect } from "react";
 const CommentSection = ({videoId}) => {
   const [expanded, setExpanded] = useState(false);
   const [comments, setComments] = useState([
-    // { name: "Teja", text: "This is an amazing video!" },
-    // { name: "Aryan", text: "Great content, keep it up!" },
-    // { name: "Priya", text: "I learned a lot from this, thanks!" },
-    // { name: "Rahul", text: "Can you make a tutorial on this topic?" },
     { owner: "", content: "" },
   ]);
   const [newComment, setNewComment] = useState("");
@@ -94,7 +90,7 @@ const CommentSection = ({videoId}) => {
             className="mt-2 text-white cursor-pointer"
             onClick={() => setExpanded(true)}
           >
-            {comments[0].owner.username}: {comments[0].content}
+            {comments[0]?.owner.username}: {comments[0]?.content}
           </div>
         ) : (
           <div className="mt-2 space-y-3 overflow-y-auto h-48">
