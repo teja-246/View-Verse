@@ -1,13 +1,14 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { ThumbsUp, ThumbsDown, Share2 } from "lucide-react";
+import { ThumbsUp, ThumbsDown, Share2, Play } from "lucide-react";
 import { useParams } from "react-router-dom";
 import VideoGrid from "./VideoGrid";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import ButtonShare from "./button_share";
 import CommentSection from "./CommentSection";
+import PlaylistActionButton from "./PlaylistActionButton";
 
 const VideoPlayer = () => {
   const [isLiked, setIsLiked] = useState(false);
@@ -123,6 +124,7 @@ const VideoPlayer = () => {
                     <button className="bg-white text-slate-900 px-4 py-2 rounded-full font-medium hover:bg-gray-200">
                       Subscribe
                     </button>
+                    <PlaylistActionButton videoId={video?._id} />
                   </div>
 
                   <div className="flex items-center gap-4">

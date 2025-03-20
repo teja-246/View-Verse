@@ -4,6 +4,7 @@ import { ApiResponse } from "../utils/ApiResponse.js"
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { Video } from "../models/video.model.js";
 import { Comment } from "../models/comment.model.js";
+import { Playlist } from "../models/playlist.model.js";
 
 const uploadVideo = asyncHandler(async (req, res) => {
     const { title, description } = req.body;
@@ -102,4 +103,38 @@ const getComments = asyncHandler(async (req, res) => {
     return res.json(new ApiResponse(200, comments, "Comments retrieved successfully"))
 })
 
-export { uploadVideo, getRequiredVideo, deleteVideo, editVideo, getVideos, addComment, getComments }
+const createPlaylist = asyncHandler(async (req, res) => {
+    const { name, videos } = req.body;
+    const playlist = new Playlist({
+        name,
+        videos,
+        owner: req.user._id
+    })
+    await playlist.save()
+    return res.json(new ApiResponse(200, playlist, "Playlist created successfully"))
+})
+
+const addToPLaylist = asyncHandler(async (req, res) => {
+    const playlist = await Playlist.findById(req.params.id)
+    if (!playlist) {
+        throw new ApiError(404, "Playlist not found")
+    }
+    if (playlist.videos.includes(req.body.videoId)) {
+        throw new ApiError(400, "Video already exists in playlist")
+    }
+    playlist.videos.push(req.body.videoId)
+    await playlist.save()
+    return res.json(new ApiResponse(200, playlist, "Video added to playlist successfully"))
+})
+
+const getPlaylists = asyncHandler(async (req, res) => {
+    const playlists = await Playlist.find({ owner: req.user._id }).populate("videos")
+    return res.json(new ApiResponse(200, playlists, "Playlists retrieved successfully"))
+})
+const getPlaylistVideos = asyncHandler(async (req, res) => {
+    const playlist = await Playlist.findById(req.params.id).populate("videos")
+    return res.json(new ApiResponse(200, playlist.videos, "Playlist videos retrieved successfully"))
+})
+
+
+export { uploadVideo, getRequiredVideo, deleteVideo, editVideo, getVideos, addComment, getComments, createPlaylist, addToPLaylist, getPlaylists, getPlaylistVideos }

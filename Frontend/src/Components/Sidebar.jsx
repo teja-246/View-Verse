@@ -7,7 +7,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       { label: "Home", icon: "🏠" },
       { label: "Trending", icon: "🔥" },
       { label: "Subscriptions", icon: "📺" },
-      { label: "Library", icon: "📚" },
+      { label: "Playlists", icon: "📚" },
       { label: "History", icon: "⏰" },
       { label: "Liked Videos", icon: "👍" },
       { label: "Watch Later", icon: "⏳" },
@@ -21,6 +21,10 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       if (item.label === "Home") {
         console.log("Home clicked");
         navigate("/main");
+      }
+      if (item.label === "Playlists") {
+        console.log("Playlists clicked");
+        navigate("/playlists");
       }
     };
   

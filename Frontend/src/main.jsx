@@ -11,6 +11,8 @@ import GetuserDetails from "./Components/GetuserDetails.jsx";
 import VideoUploadPage from "./Components/Upload-Video.jsx";
 import { Video } from "lucide-react";
 import VideoPlayer from "./Components/VideoPlayer.jsx";
+import PlaylistsPage from "./Components/PlaylistsPage.jsx";
+import PlaylistVideos from "./Components/PlaylistVideos.jsx";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +30,14 @@ const router = createBrowserRouter([
   {
     path: "/about",
     element: <About/>
+  },
+  {
+    path: "/playlists",
+    element: <PlaylistsPage/>
+  },
+  {
+    path: "/playlists/:id",
+    element: <PlaylistVideos/>
   },
   {
     path: "/getUserDetails",

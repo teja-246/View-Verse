@@ -19,7 +19,11 @@ import {
     editVideo,
     getVideos,
     addComment,
-    getComments
+    getComments,
+    createPlaylist,
+    addToPLaylist,
+    getPlaylists,
+    getPlaylistVideos
 } from "../controllers/video.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -66,7 +70,10 @@ router.route("/delete-video/:id").delete(verifyJWT, deleteVideo)
 router.route("/edit-video/:id").patch(verifyJWT, editVideo)
 router.route("/add-comment/:id").post(verifyJWT, addComment)
 router.route("/get-comments/:id").get(getComments)
-
+router.route("/create-playlist").post(verifyJWT, createPlaylist)
+router.route("/playlists/:id/add-video").post(verifyJWT, addToPLaylist)
+router.route("/playlists").get(verifyJWT, getPlaylists)
+router.route("/playlists/:id").get(verifyJWT, getPlaylistVideos)
 
 
 export default router
