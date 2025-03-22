@@ -25,7 +25,7 @@ import {
     getPlaylists,
     getPlaylistVideos
 } from "../controllers/video.controller.js";
-import { textParser, textToVideo } from "../controllers/ai.controller.js";
+import { autoContentGenerate, textParser, textToVideo } from "../controllers/ai.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
@@ -79,6 +79,7 @@ router.route("/playlists/:id").get(verifyJWT, getPlaylistVideos)
 
 // AI routes
 router.route("/parse-text").post(verifyJWT, textParser)
+router.route("/generate-content").post(verifyJWT, autoContentGenerate)
 router.route("/text-to-video").post(verifyJWT, textToVideo)
 
 export default router

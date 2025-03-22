@@ -13,6 +13,7 @@ import { Video } from "lucide-react";
 import VideoPlayer from "./Components/VideoPlayer.jsx";
 import PlaylistsPage from "./Components/PlaylistsPage.jsx";
 import PlaylistVideos from "./Components/PlaylistVideos.jsx";
+import AIContentGenerator from "./Components/AIContentGenerator.jsx";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
   {
     path: "/get-required-video/:id",
     element: <VideoPlayer />,
+  },
+  {
+    path: "/ai-generate",
+    element: <AIContentGenerator />,
   },
 ]);
 

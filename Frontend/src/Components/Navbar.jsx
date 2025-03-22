@@ -35,6 +35,10 @@ const Navbar = ({ toggleSidebar }) => {
           </div>
   
           <div className="flex items-center gap-6">
+            <Link to="/ai-generate">
+            <div className="h-6 w-10 bg-blue-500 py-5 px-8 cursor-pointer hover:text-blue-500 transition-colors hidden sm:block">AI Generate</div>
+            </Link>
+
             <Link to="/upload-video">
               <Upload className="h-6 w-6 cursor-pointer hover:text-blue-500 transition-colors hidden sm:block" />
             </Link>
