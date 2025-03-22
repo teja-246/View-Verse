@@ -131,6 +131,7 @@ const getPlaylists = asyncHandler(async (req, res) => {
     const playlists = await Playlist.find({ owner: req.user._id }).populate("videos")
     return res.json(new ApiResponse(200, playlists, "Playlists retrieved successfully"))
 })
+
 const getPlaylistVideos = asyncHandler(async (req, res) => {
     const playlist = await Playlist.findById(req.params.id).populate("videos")
     return res.json(new ApiResponse(200, playlist.videos, "Playlist videos retrieved successfully"))
