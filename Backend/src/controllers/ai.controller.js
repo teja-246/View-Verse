@@ -23,7 +23,7 @@ const textParser = asyncHandler(async (req, res) => {
                 {
                     "parts": [
                         {
-                            "text": `Modify the following text into professional language. Correct the grammar if any and replace the problematic words/phrases with appropriate alternatives. Also make sure to keep the original meaning of the text.:"${text}"
+                            "text": `Modify the following text into professional language. Correct the grammar if any and replace the problematic words/phrases with appropriate alternatives. Also make sure to keep the original meaning of the text and try to keep the length of the text close to the input text.:"${text}"
                             Return the modified text only.`
                         }
                     ]
