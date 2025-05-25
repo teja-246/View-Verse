@@ -15,7 +15,7 @@ const AboutPage = () => {
         <div className="bg-gray-800 rounded-lg shadow-xl p-8 mb-8 border border-gray-700">
           <h2 className="text-2xl font-semibold text-blue-300 mb-4">Project Overview</h2>
           <p className="text-gray-300 mb-6">
-            StreamVibe is a full-stack video streaming application built from the ground up
+            View Verse is a full-stack video streaming application built from the ground up
             as a solo project. It provides users with a seamless video watching experience,
             featuring intuitive navigation and a modern user interface.
           </p>
@@ -72,7 +72,7 @@ const AboutPage = () => {
           <h2 className="text-2xl font-semibold text-blue-300 mb-6">Let's Connect</h2>
           <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-8">
             <a
-              href="https://linkedin.com/your-profile"
+              href="https://www.linkedin.com/in/t-teja-ba7213282/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center space-x-2 text-blue-400 hover:text-blue-300 transition-colors"
@@ -81,7 +81,7 @@ const AboutPage = () => {
               <span>LinkedIn</span>
             </a>
             <a
-              href="https://instagram.com/your-profile"
+              href="https://www.instagram.com/teja.246/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center space-x-2 text-pink-400 hover:text-pink-300 transition-colors"
@@ -90,7 +90,7 @@ const AboutPage = () => {
               <span>Instagram</span>
             </a>
             <a
-              href="https://github.com/your-profile"
+              href="https://github.com/teja-246"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
