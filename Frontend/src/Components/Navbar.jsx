@@ -19,7 +19,10 @@ const Navbar = ({ toggleSidebar }) => {
               onClick={toggleSidebar}
             />
             <Link to="/about">
-              <h1 className="text-2xl font-bold">ViewVerse</h1>
+            <span className="flex items-center justify-center space-x-2 mb-4">
+              <h1 className="text-2xl text-[rgba(211,255,97,1)] font-bold">View</h1>
+              <h1 className="text-2xl text-white font-bold">Verse</h1>
+              </span>
             </Link>
           </div>
   

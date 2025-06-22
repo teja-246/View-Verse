@@ -99,16 +99,16 @@ const AuthPage = () => {
   return (
     
     <div className="h-screen w-screen">
-      <div className="min-h-screen relative flex items-center justify-center p-4 bg-gray-900">
-        {/* <InteractiveBackground /> */}
-
-        <div className="max-w-md w-full space-y-8 bg-gray-800 p-8 rounded-lg shadow-xl backdrop-blur-sm bg-opacity-80 relative z-10">
-          {/* Logo Section */}
+      <div className="min-h-screen relative flex items-center justify-center p-4 bg-black">
+        <div className="max-w-md w-full space-y-8 bg-gray-900 p-8 rounded-lg shadow-xl relative z-10">
           <div className="text-center">
-            <h2 className="text-3xl font-bold text-white">
-              {isLogin ? "Sign in" : "Create Account"}
+            <span className="flex items-center justify-center space-x-2 mb-4">
+            <p className="text-[rgba(211,255,97,1)] text-3xl font-spaceMono">View</p>
+            <p className="text-white text-3xl font-spaceMono">Verse</p>
+            </span>
+            <h2 className="text-lg text-white">
+              {isLogin ? "Sign in to continue with ViewVerse" : "Create Account to continue with ViewVerse"}
             </h2>
-            <p className="mt-2 text-gray-400">to continue to VideoApp</p>
           </div>
 
           {/* Form Section */}
@@ -118,7 +118,7 @@ const AuthPage = () => {
               <div className="transition-all duration-300 ease-in-out">
                 <label
                   htmlFor="fullname"
-                  className="block text-sm font-medium text-gray-300"
+                  className="block text-sm font-medium text-white"
                 >
                   Fullname
                 </label>
@@ -139,7 +139,7 @@ const AuthPage = () => {
               <div className="transition-all duration-300 ease-in-out">
                 <label
                   htmlFor="username"
-                  className="block text-sm font-medium text-gray-300"
+                  className="block text-sm font-medium text-white"
                 >
                   Username
                 </label>
@@ -159,7 +159,7 @@ const AuthPage = () => {
             <div className="transition-all duration-300 ease-in-out">
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-300"
+                className="block text-sm font-medium text-white"
               >
                 Email address
               </label>
@@ -178,7 +178,7 @@ const AuthPage = () => {
             <div className="transition-all duration-300 ease-in-out">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-300"
+                className="block text-sm font-medium text-white"
               >
                 Password
               </label>
@@ -211,7 +211,7 @@ const AuthPage = () => {
               <div className="transition-all duration-300 ease-in-out">
                 <label
                   htmlFor="avatar"
-                  className="block text-sm font-medium text-gray-300"
+                  className="block text-sm font-medium text-white"
                 >
                   Avatar
                 </label>
@@ -232,7 +232,7 @@ const AuthPage = () => {
               <div className="transition-all duration-300 ease-in-out">
                 <label
                   htmlFor="coverimage"
-                  className="block text-sm font-medium text-gray-300"
+                  className="block text-sm font-medium text-white"
                 >
                   Cover Image
                 </label>
@@ -264,15 +264,6 @@ const AuthPage = () => {
                     Remember me
                   </label>
                 </div>
-
-                <div>
-                  <a
-                    href="#"
-                    className="font-medium text-blue-400 hover:text-blue-300 transition-colors duration-200"
-                  >
-                    Forgot your password?
-                  </a>
-                </div>
               </div>
             )}
 
@@ -280,7 +271,7 @@ const AuthPage = () => {
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 transform hover:scale-[1.02]"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-black bg-[rgba(211,255,97,1)] hover:bg-[#e7ffa9] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 transform hover:scale-[1.02]"
               >
                 {isLogin ? "Sign in" : "Create Account"}
               </button>
@@ -291,7 +282,7 @@ const AuthPage = () => {
           <div className="text-center mt-4">
             <button
               onClick={() => setIsLogin(!isLogin)}
-              className="text-sm text-blue-400 hover:text-blue-300 transition-colors duration-200"
+              className="text-sm text-[rgba(211,255,97,1)] hover:text-blue-300 transition-colors duration-200"
             >
               {isLogin
                 ? "Don't have an account? Sign up"
