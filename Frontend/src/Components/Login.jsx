@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import InteractiveBackground from "./InteractiveBackground.jsx";
 
 
 const AuthPage = () => {
@@ -100,7 +99,7 @@ const AuthPage = () => {
     
     <div className="h-screen w-screen">
       <div className="min-h-screen relative flex items-center justify-center p-4 bg-black">
-        <div className="max-w-md w-full space-y-8 bg-gray-900 p-8 rounded-lg shadow-xl relative z-10">
+        <div className="max-w-md w-full space-y-8 bg-gray-900 p-8 rounded-lg shadow-xl relative z-10 border border-white">
           <div className="text-center">
             <span className="flex items-center justify-center space-x-2 mb-4">
             <p className="text-[rgba(211,255,97,1)] text-3xl font-spaceMono">View</p>

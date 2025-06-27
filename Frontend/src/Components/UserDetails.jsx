@@ -61,7 +61,7 @@ const UserDetails = () => {
         onMouseLeave={() => setShowHoverCard(false)}
         onClick={handleCardClick}
       >
-        <Userimg className="w-6 h-6 text-gray-400" />
+        <Userimg className="w-6 h-6 text-white" />
       </div>
 
       {/* Hover card */}

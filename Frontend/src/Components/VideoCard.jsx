@@ -13,7 +13,7 @@ const VideoCard = ({ videoFile, videoId, thumbnail, title, username, avatar }) =
     }
 
     return (
-      <div className="bg-slate-800 rounded-lg overflow-hidden hover:scale-105 transition-transform cursor-pointer" onClick={handleClick}>
+      <div className="bg-[rgba(30,30,30,1)] border-[1px] border-[rgba(76,76,76,1)] rounded-lg overflow-hidden hover:scale-105 transition-transform cursor-pointer" onClick={handleClick}>
         <div className="relative pb-[56.25%]">
           <img
             src={thumbnail}

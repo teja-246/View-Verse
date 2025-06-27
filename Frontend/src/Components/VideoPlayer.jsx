@@ -86,16 +86,16 @@ const VideoPlayer = () => {
           {/* <VideoPlayer /> */}
           <div className="bg-slate-950 mx-auto px-4 py-2 mr-7">
             <div className="bg-slate-900 rounded-lg overflow-hidden">
-              <div className="relative pb-[56.25%] bg-black">
+              <div className="p-12 relative pb-[56.25%] bg-black">
                 {showThumbnail ? (
                   <img
-                    src={video?.thumbnail || defaultVideo.thumbnail}
+                    src={video?.thumbnail}
                     alt="Video thumbnail"
                     className="absolute top-0 left-0 w-full h-full object-cover"
                   />
                 ) : (
                   <video
-                    src={video?.videoFile || defaultVideo.videoFile}
+                    src={video?.videoFile}
                     className="absolute top-0 left-0 w-full h-full object-cover"
                     controls
                     autoPlay
@@ -105,7 +105,7 @@ const VideoPlayer = () => {
 
               <div className="p-4">
                 <h1 className="text-2xl font-bold text-white mb-4">
-                  {video?.title || defaultVideo.title}
+                  {video?.title}
                 </h1>
 
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-700 pb-4 gap-4">
@@ -115,7 +115,7 @@ const VideoPlayer = () => {
                     </div>
                     <div>
                       <p className="text-white font-medium">
-                        {video?.owner.username || defaultVideo.channel.name}
+                        {video?.owner.username}
                       </p>
                       <p className="text-gray-400 text-sm">
                         {defaultVideo.channel.subscribers}
