@@ -59,8 +59,8 @@ const CommentSection = ({videoId}) => {
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto mt-4">
-      <div className="bg-slate-900 p-4 rounded-lg transition-all duration-300 text-white text-lg">
+    <div className="w-[95%] m-6 border-[2px] border-white rounded-2xl">
+      <div className="bg-black w-full p-4 rounded-2xl transition-all duration-300 text-white text-lg">
         <div
           className="flex justify-between items-center cursor-pointer"
           onClick={() => setExpanded(!expanded)}
@@ -79,7 +79,7 @@ const CommentSection = ({videoId}) => {
             onChange={(e) => setNewComment(e.target.value)}
           />
           <button
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="bg-[rgba(211,255,97,1)] text-black px-4 py-2 rounded hover:bg-[#e7ffa9] transition"
             onClick={handlePostComment}
           >
             Post

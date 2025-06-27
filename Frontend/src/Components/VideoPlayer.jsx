@@ -84,8 +84,8 @@ const VideoPlayer = () => {
         <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
         <main className="w-full lg:ml-64 transition-all duration-300">
           {/* <VideoPlayer /> */}
-          <div className="bg-slate-950 mx-auto px-4 py-2 mr-7">
-            <div className="bg-slate-900 rounded-lg overflow-hidden">
+          <div className="bg-black py-2 mr-7">
+            <div className="bg-black rounded-lg overflow-hidden">
               <div className="p-12 relative pb-[56.25%] bg-black">
                 {showThumbnail ? (
                   <img
@@ -103,7 +103,7 @@ const VideoPlayer = () => {
                 )}
               </div>
 
-              <div className="p-4">
+              <div className="p-4 bg-black">
                 <h1 className="text-2xl font-bold text-white mb-4">
                   {video?.title}
                 </h1>
@@ -178,8 +178,8 @@ const VideoPlayer = () => {
               </div>
 
               <CommentSection videoId={video?._id} />
-              <div className="w-full lg:ml-64 transition-all duration-300">
-                <h2 className="text-white text-xl font-semibold px-6 mt-6">
+              <div className="w-full  transition-all duration-300 bg-black">
+                <h2 className="text-white text-xl font-semibold mt-6">
                   Watch more
                 </h2>
                 <VideoGrid />
