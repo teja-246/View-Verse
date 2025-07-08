@@ -1,6 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js"
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const textParser = asyncHandler(async (req, res) => {
     const GEMINI_API_KEY = process.env.GEMINI_API_KEY
@@ -25,45 +26,6 @@ const textParser = asyncHandler(async (req, res) => {
                         {
                             "text": `Modify the following text into professional language. Correct the grammar if any and replace the problematic words/phrases with appropriate alternatives. Also make sure to keep the original meaning of the text and try to keep the length of the text close to the input text.:"${text}"
                             Return the modified text only.`
-                        }
-                    ]
-                }
-            ]
-        }),
-    });
-
-    const data = await response.json();
-
-    return res.json(new ApiResponse(200, data, "Text parsed successfully"))
-});
-
-const autoContentGenerate = asyncHandler(async (req, res) => {
-    const GEMINI_API_KEY = process.env.GEMINI_API_KEY
-    const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
-
-
-    const { text } = req.body;
-
-    if (text === "") {
-        throw new ApiError(400, "Text is required")
-    }
-
-    const response = await fetch(GEMINI_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            "contents": [
-                {
-                    "parts": [
-                        {
-                            "text": `This is a description text. A video is made on the basis of this description and will be uploaded on social media. Generate a suitable title and a short, precise description for the video to be uploaded on social media platforms:"${text}"
-                            Return the generated title and description in a json format like: 
-                            {
-                                title: "generated title", 
-                                description: "generated description"
-                            }.`
                         }
                     ]
                 }
@@ -111,6 +73,37 @@ const textToVideo = asyncHandler(async (req, res) => {
         throw new ApiError(500, "Error converting text to video");
     }
 });
+
+const autoContentGenerate = asyncHandler(async (req, res) => {
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  const { prompt } = req.body;
+
+  try {
+    const model = genAI.getGenerativeModel({ model: "models/gemini-1.5-pro-latest" });
+
+    const result = await model.generateContent({
+      contents: [
+        {
+          parts: [
+            {
+              text: `You are a JavaScript expert that outputs only MathBox code for rendering mathematical visualizations in a browser. Wrap all code in a single function(container) { ... } block.\n\nGenerate a MathBox animation that: ${prompt}`
+            }
+          ]
+        }
+      ]
+    });
+
+    const code = result.response.text();
+    res.json({ code });
+  } catch (err) {
+    console.error("Gemini error:", err.message);
+    res.status(500).json({ error: "Code generation failed" });
+  }
+});
+
+
+
+
 
 
 export { textParser, textToVideo, autoContentGenerate }

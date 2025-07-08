@@ -79,7 +79,7 @@ router.route("/playlists/:id").get(verifyJWT, getPlaylistVideos)
 
 // AI routes
 router.route("/parse-text").post(verifyJWT, textParser)
-router.route("/generate-content").post(verifyJWT, autoContentGenerate)
 router.route("/text-to-video").post(verifyJWT, textToVideo)
+router.route("/generate-content").post(verifyJWT, autoContentGenerate)
 
 export default router

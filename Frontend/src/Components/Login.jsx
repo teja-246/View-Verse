@@ -24,7 +24,7 @@ const AuthPage = () => {
             console.log("Cookies before login:", document.cookie);
 
             const response = await fetch(
-                "http://localhost:8000/api/v1/users/login",
+                "https://view-verse.onrender.com/api/v1/users/login",
                 {
                     method: "POST",
                     headers: {
@@ -64,7 +64,7 @@ const AuthPage = () => {
       if (!isLogin) {
         try {
           const response = await fetch(
-            "http://localhost:8000/api/v1/users/register",
+            "https://view-verse.onrender.com/api/v1/users/register",
             {
               method: "POST",
               credentials: "include",

@@ -1,101 +1,93 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+
+const Url = "http://localhost:8000/api/v1"; // Update this if needed
 
 const AIContentGenerator = () => {
-  const [inputText, setInputText] = useState('');
-  const [aiTitle, setAiTitle] = useState('');
-  const [aiDescription, setAiDescription] = useState('');
-  const [aiVideoUrl, setAiVideoUrl] = useState('');
+  const [inputText, setInputText] = useState("");
+  const [aiTitle, setAiTitle] = useState("");
+  const [aiDescription, setAiDescription] = useState("");
+  const [aiVideoUrl, setAiVideoUrl] = useState("");
   const [loading, setLoading] = useState(false);
+  const [video, setVideo] = useState(null);
+  const [thumbnail, setThumbnail] = useState(null);
 
   const handleGenerateContent = async (e) => {
     e.preventDefault();
-    if (!inputText.trim()) return alert('Please enter a prompt');
     setLoading(true);
 
     try {
-        // AI Content Generation API call
-        const response = await fetch('http://localhost:8000/api/v1/users/generate-content', {
-            method: 'POST',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text: inputText }),
-        });
+      const response = await fetch(`${Url}/users/generate-content`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt: inputText }),
+      });
 
-        const data = await response.json();
-        console.log("AI Response:", data);
+      const res = await response.json();
 
-        let generatedTitle = 'Could not generate video title';
-        let generatedDescription = 'Could not generate video description.';
+      if (!response.ok) {
+        throw new Error(res.message || "Failed to generate content");
+      }
 
-        if (response.ok && data.data) {
-            const outputText = data.data.candidates[0].content.parts[0].text;
-            const cleanJsonString = outputText.replace(/```json|```/g, '').trim();
-            const parsed = JSON.parse(cleanJsonString);
-            generatedTitle = parsed.title;
-            generatedDescription = parsed.description;
-        }
+      setAiTitle(res.title);
+      setAiDescription(res.description);
+      setAiVideoUrl(res.videoUrl);
 
-        // Video Generation API call
-        const videoResponse = await fetch('http://localhost:8000/api/v1/users/text-to-video', {
-            method: 'POST',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ script: inputText }),
-        });
-
-        const videoData = await videoResponse.json();
-        console.log("Video Response:", videoData);
-
-        const videoUrl = videoData.videoUrl || 'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4';
-
-        // Update the state
-        setAiTitle(generatedTitle);
-        setAiDescription(generatedDescription);
-        setAiVideoUrl(videoUrl);
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Failed to generate AI content');
+      const videoResponse = await fetch(res.videoUrl);
+      const blob = await videoResponse.blob();
+      const videoFile = new File([blob], "ai-video.mp4", { type: "video/mp4" });
+      setVideo(videoFile);
+    } catch (err) {
+      alert("Failed to generate visualization");
+      console.error(err);
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
-};
+  };
 
+  const handleUpload = async () => {
+    if (!video) {
+      alert("No video to upload.");
+      return;
+    }
 
-  const handleUpload = async (event) => {
-    event.preventDefault();
-        setLoading(true);
+    setLoading(true);
 
-        const formData = new FormData();
-        formData.append("title", title);
-        formData.append("description", description);
-        formData.append("videoFile", video);
-        formData.append("thumbnail", thumbnail);
+    const formData = new FormData();
+    formData.append("title", aiTitle);
+    formData.append("description", aiDescription);
+    formData.append("videoFile", video);
+    if (thumbnail) formData.append("thumbnail", thumbnail);
 
-        try {
-            const response = await fetch(`${Url}/upload-video`, {
-                method: "POST",
-                credentials: "include",
-                body: formData,
-            });
+    try {
+      const response = await fetch(`${Url}/upload-video`, {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      });
 
-            const result = await response.json();
-            console.log(result);
+      const result = await response.json();
+      console.log(result);
 
-            if (response.ok) {
-                alert("Video uploaded successfully!");
-                setTitle('');
-                setDescription('');
-                setVideo(null);
-                setThumbnail(null);
-            } else {
-                alert(result.message || 'Upload failed');
-            }
-        } catch (error) {
-            console.error("Error uploading video:", error);
-            alert("Failed to upload video. Please try again.");
-        } finally {
-            setLoading(false);
-        }
+      if (response.ok) {
+        alert("Video uploaded successfully!");
+        setInputText("");
+        setAiTitle("");
+        setAiDescription("");
+        setAiVideoUrl("");
+        setVideo(null);
+        setThumbnail(null);
+      } else {
+        alert(result.message || "Upload failed");
+      }
+    } catch (error) {
+      console.error("Error uploading video:", error);
+      alert("Failed to upload video. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -116,10 +108,12 @@ const AIContentGenerator = () => {
             type="submit"
             disabled={loading}
             className={`w-full ${
-              loading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+              loading
+                ? "bg-blue-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
             } text-white font-bold py-2 px-4 rounded-md`}
           >
-            {loading ? 'Generating...' : 'Generate'}
+            {loading ? "Generating..." : "Generate"}
           </button>
         </form>
 
@@ -140,6 +134,19 @@ const AIContentGenerator = () => {
                 <source src={aiVideoUrl} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
+            </div>
+
+            {/* Thumbnail upload (optional) */}
+            <div className="mt-4">
+              <label className="block font-semibold mb-1">
+                Upload Thumbnail (optional):
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setThumbnail(e.target.files[0])}
+                className="text-sm"
+              />
             </div>
 
             {/* Upload Button */}
