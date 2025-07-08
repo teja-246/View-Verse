@@ -13,7 +13,7 @@ const UserDetails = () => {
         // console.log("Current cookies:", document.cookie);
 
         const response = await fetch(
-          "http://localhost:8000/api/v1/users/current-user",
+          "https://view-verse.onrender.com/api/v1/users/current-user",
           {
             method: "GET",
             credentials: "include",

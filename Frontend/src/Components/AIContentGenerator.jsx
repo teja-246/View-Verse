@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Url = "http://localhost:8000/api/v1"; // Update this if needed
+const Url = "https://view-verse.onrender.com/api/v1"; // Update this if needed
 
 const AIContentGenerator = () => {
   const [inputText, setInputText] = useState("");

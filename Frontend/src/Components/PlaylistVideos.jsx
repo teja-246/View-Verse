@@ -10,7 +10,7 @@ const PlaylistVideos = () => {
     const fetchVideos = async () => {
         try {
             const response = await fetch(
-              `http://localhost:8000/api/v1/users/playlists/${playlistId}`,
+              `https://view-verse.onrender.com/api/v1/users/playlists/${playlistId}`,
               {
                 method: "GET",
                 credentials: "include",

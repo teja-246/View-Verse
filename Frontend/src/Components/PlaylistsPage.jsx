@@ -10,7 +10,7 @@ const PlaylistsPage = () => {
   useEffect(() => {
     const fetchPlaylists = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/v1/users/playlists", {
+        const response = await fetch("https://view-verse.onrender.com/api/v1/users/playlists", {
           method: "GET",
           credentials: "include",
           headers: { "Content-Type": "application/json" },

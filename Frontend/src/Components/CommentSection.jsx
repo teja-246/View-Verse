@@ -10,7 +10,7 @@ const CommentSection = ({videoId}) => {
   useEffect(() => {
     const fetchComments = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/v1/users/get-comments/${videoId}`, {
+            const response = await fetch(`https://view-verse.onrender.com/api/v1/users/get-comments/${videoId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -38,7 +38,7 @@ const CommentSection = ({videoId}) => {
     }
 
     try {
-      const response = await fetch(`http://localhost:8000/api/v1/users/add-comment/${videoId}`, {
+      const response = await fetch(`https://view-verse.onrender.com/api/v1/users/add-comment/${videoId}`, {
         method: "POST",
         credentials: "include",
         headers: {
