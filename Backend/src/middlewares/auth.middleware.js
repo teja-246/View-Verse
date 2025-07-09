@@ -4,7 +4,9 @@ import jwt from "jsonwebtoken"
 import { User } from "../models/user.model.js"
 
 export const verifyJWT = asyncHandler(async(req,res,next)=>{
-    try {       
+    try {
+        console.log("Verifying JWT..."); // Debug log
+               
         console.log("Cookies received:", req.cookies); // Debug cookies
         console.log("Headers:", req.headers); // Debug headers
         
