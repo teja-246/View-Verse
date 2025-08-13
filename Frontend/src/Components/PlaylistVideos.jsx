@@ -5,12 +5,12 @@ const PlaylistVideos = () => {
   const { playlistId } = useParams();
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const Url = import.meta.env.VITE_API_URL;
   useEffect(() => {
     const fetchVideos = async () => {
         try {
             const response = await fetch(
-              `https://view-verse.onrender.com/api/v1/users/playlists/${playlistId}`,
+              `${Url}/playlists/${playlistId}`,
               {
                 method: "GET",
                 credentials: "include",

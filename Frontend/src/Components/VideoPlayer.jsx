@@ -13,6 +13,7 @@ import PlaylistActionButton from "./PlaylistActionButton";
 const VideoPlayer = () => {
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
+  const [likesCount, setLikesCount] = useState(0);
   const [showThumbnail, setShowThumbnail] = useState(true);
   const [video, setVideo] = useState();
   const location = useLocation();
@@ -23,15 +24,12 @@ const VideoPlayer = () => {
   useEffect(() => {
     const fetchVideo = async () => {
       try {
-        const response = await fetch(
-          `${Url}/get-required-video/${id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await fetch(`${Url}/get-required-video/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         const data = await response.json();
         console.log(data);
         setVideo(data.data);
@@ -42,6 +40,27 @@ const VideoPlayer = () => {
 
     fetchVideo();
   }, [location]);
+
+  // Fetch initial likes count
+  useEffect(() => {
+    const fetchLikeCount = async () => {
+      try {
+        const response = await fetch(`${Url}/likeCount/${video?._id}`, {
+          credentials: "include",
+        });
+        const data = await response.json();
+
+        setLikesCount(data.data.likesCount || 0);
+        setIsLiked(data.data.isLiked || false);
+      } catch (error) {
+        console.error("Error fetching like count:", error);
+      }
+    };
+
+    if (video?._id) {
+      fetchLikeCount();
+    }
+  }, [video?._id]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -77,6 +96,41 @@ const VideoPlayer = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  const handleLikeToggle = async () => {
+  try {
+    const res = await fetch(`${Url}/likeVideo/${video._id}`, {
+      method: "POST",
+      credentials: "include"
+    });
+    const data = await res.json();
+
+    setIsDisliked(false);
+    setIsLiked(data.data.liked);
+    setLikesCount(data.data.likesCount);
+  } catch (error) {
+    console.error("Error toggling like:", error);
+  }
+};
+
+const handleDislikeToggle = async () => {
+  try {
+    const res = await fetch(`${Url}/dislikeVideo/${video._id}`, {
+      method: "POST",
+      credentials: "include"
+    });
+    const data = await res.json();
+
+    setIsDisliked(data.data.disliked);
+    setIsLiked(false);
+    setLikesCount(data.data.likesCount);
+  } catch (error) {
+    console.error("Error disliking video:", error);
+  }
+};
+
+
+
   return (
     <div className="min-h-screen bg-slate-950 min-w-full">
       <Navbar toggleSidebar={toggleSidebar} />
@@ -133,27 +187,21 @@ const VideoPlayer = () => {
                         className={`flex items-center gap-2 px-4 py-2 rounded-l-full ${
                           isLiked ? "text-blue-500" : "text-white"
                         }`}
-                        onClick={() => {
-                          setIsLiked(!isLiked);
-                          setIsDisliked(false);
-                        }}
+                        onClick={handleLikeToggle}
                       >
                         <ThumbsUp className="h-5 w-5" />
                         <span>Like</span>
+                        <span>{likesCount}</span>
                       </button>
                       <button
                         className={`flex items-center gap-2 px-4 py-2 rounded-r-full border-l border-slate-700 ${
                           isDisliked ? "text-blue-500" : "text-white"
                         }`}
-                        onClick={() => {
-                          setIsDisliked(!isDisliked);
-                          setIsLiked(false);
-                        }}
+                        onClick={handleDislikeToggle}
                       >
                         <ThumbsDown className="h-5 w-5" />
                         <span>Dislike</span>
                       </button>
-                      
                     </div>
 
                     <button className="flex items-center gap-2 bg-slate-800 text-white px-4 py-2 rounded-full">

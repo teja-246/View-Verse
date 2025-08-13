@@ -23,7 +23,10 @@ import {
     createPlaylist,
     addToPLaylist,
     getPlaylists,
-    getPlaylistVideos
+    getPlaylistVideos,
+    getLikeCount,
+    toggleLike,
+    dislikeVideo
 } from "../controllers/video.controller.js";
 import { autoContentGenerate, textParser, textToVideo } from "../controllers/ai.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
@@ -75,6 +78,9 @@ router.route("/create-playlist").post(verifyJWT, createPlaylist)
 router.route("/playlists/:id/add-video").post(verifyJWT, addToPLaylist)
 router.route("/playlists").get(verifyJWT, getPlaylists)
 router.route("/playlists/:id").get(verifyJWT, getPlaylistVideos)
+router.route("/likeCount/:id").get(getLikeCount)
+router.route("/likeVideo/:id").post(verifyJWT, toggleLike)
+router.route("/dislikeVideo/:id").post(verifyJWT, dislikeVideo)
 
 
 // AI routes

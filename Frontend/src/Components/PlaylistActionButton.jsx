@@ -6,7 +6,7 @@ const PlaylistActionButton = ({ videoId }) => {
   const [playlists, setPlaylists] = useState([]);
   const [newPlaylistName, setNewPlaylistName] = useState("");
   const [loading, setLoading] = useState(true);
-
+  const Url = import.meta.env.VITE_API_URL;
   useEffect(() => {
     if (isOpen) {
       fetchPlaylists();
@@ -15,7 +15,7 @@ const PlaylistActionButton = ({ videoId }) => {
 
   const fetchPlaylists = async () => {
     try {
-      const response = await fetch("https://view-verse.onrender.com/api/v1/users/playlists", {
+      const response = await fetch(`${Url}/playlists`, {
         method: "GET",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -35,7 +35,7 @@ const PlaylistActionButton = ({ videoId }) => {
 
   const addToPlaylist = async (playlistId) => {
     try {
-      const response = await fetch(`https://view-verse.onrender.com/api/v1/users/playlists/${playlistId}/add-video`, {
+      const response = await fetch(`${Url}/playlists/${playlistId}/add-video`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -58,7 +58,7 @@ const PlaylistActionButton = ({ videoId }) => {
     if (!newPlaylistName.trim()) return;
 
     try {
-      const response = await fetch("https://view-verse.onrender.com/api/v1/users/create-playlist", {
+      const response = await fetch(`${Url}/create-playlist`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

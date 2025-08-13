@@ -17,6 +17,8 @@ const AuthPage = () => {
     e.preventDefault();
     console.log("Form submitted:", formData);
 
+    const Url = import.meta.env.VITE_API_URL;
+
     {
       if (isLogin) {
         try {
@@ -24,7 +26,7 @@ const AuthPage = () => {
             console.log("Cookies before login:", document.cookie);
 
             const response = await fetch(
-                "https://view-verse.onrender.com/api/v1/users/login",
+                `${Url}/login`,
                 {
                     method: "POST",
                     headers: {
@@ -64,7 +66,7 @@ const AuthPage = () => {
       if (!isLogin) {
         try {
           const response = await fetch(
-            "https://view-verse.onrender.com/api/v1/users/register",
+            `${Url}/register`,
             {
               method: "POST",
               credentials: "include",

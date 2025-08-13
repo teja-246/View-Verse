@@ -5,6 +5,7 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { Video } from "../models/video.model.js";
 import { Comment } from "../models/comment.model.js";
 import { Playlist } from "../models/playlist.model.js";
+import { Like } from "../models/like.model.js";
 
 const uploadVideo = asyncHandler(async (req, res) => {
     const { title, description } = req.body;
@@ -137,5 +138,86 @@ const getPlaylistVideos = asyncHandler(async (req, res) => {
     return res.json(new ApiResponse(200, playlist.videos, "Playlist videos retrieved successfully"))
 })
 
+const toggleLike = asyncHandler(async (req, res) => {
+    const { videoId } = req.params;
+    const existingLike = await Like.findOne({ video: videoId, likedBy: req.user._id });
 
-export { uploadVideo, getRequiredVideo, deleteVideo, editVideo, getVideos, addComment, getComments, createPlaylist, addToPLaylist, getPlaylists, getPlaylistVideos }
+    if (existingLike) {
+        // Unlike the video
+        await existingLike.deleteOne();
+
+        const newCount = await Like.countDocuments({ video: videoId });
+        return res.json(
+            new ApiResponse(200, { liked: false, likesCount: newCount }, "Video unliked successfully")
+        );
+    } else {
+        // Like the video
+        const like = new Like({
+            video: videoId,
+            likedBy: req.user._id
+        });
+        await like.save();
+
+        const newCount = await Like.countDocuments({ video: videoId });
+        return res.json(
+            new ApiResponse(200, { liked: true, likesCount: newCount }, "Video liked successfully")
+        );
+    }
+});
+
+
+const getLikeCount = asyncHandler(async (req, res) => {
+    const videoId = req.params.id;
+    const userId = req.user?._id; // from your auth middleware
+
+    // Total likes
+    const likeCount = await Like.countDocuments({ video: videoId });
+
+    // Check if the logged-in user has liked this video
+    let isLiked = false;
+    if (userId) {
+        const existingLike = await Like.exists({ video: videoId, likedBy: userId });
+        isLiked = !!existingLike;
+    }
+
+    return res.json(
+        new ApiResponse(
+            200,
+            {
+                likesCount: likeCount,
+                isLiked
+            },
+            "Like count retrieved successfully"
+        )
+    );
+});
+
+const dislikeVideo = asyncHandler(async (req, res) => {
+    const { videoId } = req.params;
+    const userId = req.user._id;
+
+    // Check if the user has already liked this video
+    const existingLike = await Like.findOne({ video: videoId, likedBy: userId });
+
+    if (existingLike) {
+        // Remove the like
+        await existingLike.deleteOne();
+    }
+
+    // Return updated like count
+    const newCount = await Like.countDocuments({ video: videoId });
+
+    return res.json(
+        new ApiResponse(
+            200,
+            { disliked: true, likesCount: newCount },
+            existingLike
+                ? "Like removed, video disliked"
+                : "Video disliked (no like to remove)"
+        )
+    );
+});
+
+
+
+export { uploadVideo, getRequiredVideo, deleteVideo, editVideo, getVideos, addComment, getComments, createPlaylist, addToPLaylist, getPlaylists, getPlaylistVideos, toggleLike, getLikeCount, dislikeVideo }

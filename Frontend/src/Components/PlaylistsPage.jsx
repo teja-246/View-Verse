@@ -5,13 +5,13 @@ import { useNavigate } from "react-router-dom";
 const PlaylistsPage = () => {
   const [playlists, setPlaylists] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const Url = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPlaylists = async () => {
       try {
-        const response = await fetch("https://view-verse.onrender.com/api/v1/users/playlists", {
+        const response = await fetch(`${Url}/playlists`, {
           method: "GET",
           credentials: "include",
           headers: { "Content-Type": "application/json" },

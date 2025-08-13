@@ -6,11 +6,11 @@ const CommentSection = ({videoId}) => {
     { owner: "", content: "" },
   ]);
   const [newComment, setNewComment] = useState("");
-
+  const Url = import.meta.env.VITE_API_URL;
   useEffect(() => {
     const fetchComments = async () => {
         try {
-            const response = await fetch(`https://view-verse.onrender.com/api/v1/users/get-comments/${videoId}`, {
+            const response = await fetch(`${Url}/get-comments/${videoId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -38,7 +38,7 @@ const CommentSection = ({videoId}) => {
     }
 
     try {
-      const response = await fetch(`https://view-verse.onrender.com/api/v1/users/add-comment/${videoId}`, {
+      const response = await fetch(`${Url}/add-comment/${videoId}`, {
         method: "POST",
         credentials: "include",
         headers: {

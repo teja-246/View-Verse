@@ -6,14 +6,14 @@ const UserDetails = () => {
   const [showHoverCard, setShowHoverCard] = useState(false);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-
+  const Url = import.meta.env.VITE_API_URL;
   useEffect(() => {
     const fetchUser = async () => {
       try {
         // console.log("Current cookies:", document.cookie);
 
         const response = await fetch(
-          "https://view-verse.onrender.com/api/v1/users/current-user",
+          `${Url}/current-user`,
           {
             method: "GET",
             credentials: "include",
