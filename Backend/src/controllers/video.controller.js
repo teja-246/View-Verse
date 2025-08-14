@@ -6,6 +6,7 @@ import { Video } from "../models/video.model.js";
 import { Comment } from "../models/comment.model.js";
 import { Playlist } from "../models/playlist.model.js";
 import { Like } from "../models/like.model.js";
+import { Subscription } from "../models/subscription.model.js";
 
 const uploadVideo = asyncHandler(async (req, res) => {
     const { title, description } = req.body;
@@ -165,7 +166,6 @@ const toggleLike = asyncHandler(async (req, res) => {
     }
 });
 
-
 const getLikeCount = asyncHandler(async (req, res) => {
     const videoId = req.params.id;
     const userId = req.user?._id; // from your auth middleware
@@ -218,6 +218,38 @@ const dislikeVideo = asyncHandler(async (req, res) => {
     );
 });
 
+const subscribeToChannel = asyncHandler(async (req, res) => {
+    const { channelId } = req.params;
+    const userId = req.user._id;
 
+    // Check if the user is already subscribed
+    const existingSubscription = await Subscription.findOne({ channel: channelId, subscriber: userId });
 
-export { uploadVideo, getRequiredVideo, deleteVideo, editVideo, getVideos, addComment, getComments, createPlaylist, addToPLaylist, getPlaylists, getPlaylistVideos, toggleLike, getLikeCount, dislikeVideo }
+    if (existingSubscription) {
+        // Unsubscribe
+        await existingSubscription.deleteOne();
+        return res.json(new ApiResponse(200, { subscribed: false }, "Unsubscribed successfully"));
+    } else {
+        // Subscribe
+        const subscription = new Subscription({ channel: channelId, subscriber: userId });
+        await subscription.save();
+        return res.json(new ApiResponse(200, { subscribed: true }, "Subscribed successfully"));
+    }
+});
+
+const getSubscribedOrNot = asyncHandler(async (req, res) => {
+    const { channelId } = req.params;
+    const userId = req.user._id;
+
+    const existingSubscription = await Subscription.findOne({ channel: channelId, subscriber: userId });
+
+    return res.json(new ApiResponse(200, { subscribed: !!existingSubscription }, "Subscription status retrieved successfully"));
+});
+
+const getSubscriptions = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+    const subscriptions = await Subscription.find({ subscriber: userId }).populate("channel");
+    return res.json(new ApiResponse(200, subscriptions, "Subscriptions retrieved successfully"));
+});
+
+export { uploadVideo, getRequiredVideo, deleteVideo, editVideo, getVideos, addComment, getComments, createPlaylist, addToPLaylist, getPlaylists, getPlaylistVideos, toggleLike, getLikeCount, dislikeVideo, subscribeToChannel, getSubscribedOrNot, getSubscriptions }

@@ -13,6 +13,7 @@ import PlaylistActionButton from "./PlaylistActionButton";
 const VideoPlayer = () => {
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
   const [showThumbnail, setShowThumbnail] = useState(true);
   const [video, setVideo] = useState();
@@ -61,6 +62,26 @@ const VideoPlayer = () => {
       fetchLikeCount();
     }
   }, [video?._id]);
+
+  useEffect(() => {
+    const fetchSubscriptionStatus = async () => {
+      try {
+        const response = await fetch(`${Url}/subscribedOrNot/${video?.owner}`, {
+          method: "GET",
+          credentials: "include",
+        });
+        const data = await response.json();
+
+        setIsSubscribed(data.data.subscribed || false);
+      } catch (error) {
+        console.error("Error fetching subscription status:", error);
+      }
+    };
+
+    if (video?.owner) {
+      fetchSubscriptionStatus();
+    }
+  }, [video?.owner]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -129,7 +150,20 @@ const handleDislikeToggle = async () => {
   }
 };
 
+const handleSubscribe = async () => {
+  console.log("subscribe clicked");
+  try {
+    const res = await fetch(`${Url}/subscribe/${video._id}`, {
+      method: "POST",
+      credentials: "include"
+    });
+    const data = await res.json();
 
+    setIsSubscribed(data.data.subscribed);
+  } catch (error) {
+    console.error("Error subscribing to channel:", error);
+  }
+};
 
   return (
     <div className="min-h-screen bg-slate-950 min-w-full">
@@ -175,8 +209,8 @@ const handleDislikeToggle = async () => {
                         {defaultVideo.channel.subscribers}
                       </p>
                     </div>
-                    <button className="bg-white text-slate-900 px-4 py-2 rounded-full font-medium hover:bg-gray-200">
-                      Subscribe
+                    <button className={`text-slate-900 px-4 py-2 rounded-full font-medium hover:bg-gray-200 ${isSubscribed ? "bg-red-500" : "bg-white"}`} onClick={handleSubscribe}>
+                      {isSubscribed ? "Subscribed" : "Subscribe"}
                     </button>
                     <PlaylistActionButton videoId={video?._id} />
                   </div>

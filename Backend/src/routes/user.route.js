@@ -26,11 +26,15 @@ import {
     getPlaylistVideos,
     getLikeCount,
     toggleLike,
-    dislikeVideo
+    dislikeVideo,
+    subscribeToChannel,
+    getSubscribedOrNot,
+    getSubscriptions
 } from "../controllers/video.controller.js";
 import { autoContentGenerate, textParser, textToVideo } from "../controllers/ai.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { get } from "mongoose";
 
 const router = Router()
 // User routes
@@ -81,6 +85,9 @@ router.route("/playlists/:id").get(verifyJWT, getPlaylistVideos)
 router.route("/likeCount/:id").get(getLikeCount)
 router.route("/likeVideo/:id").post(verifyJWT, toggleLike)
 router.route("/dislikeVideo/:id").post(verifyJWT, dislikeVideo)
+router.route("/subscribe/:id").post(verifyJWT, subscribeToChannel)
+router.route("/subscribedOrNot/:id").get(verifyJWT, getSubscribedOrNot)
+router.route("/get-subscriptions/:id").get(verifyJWT, getSubscriptions)
 
 
 // AI routes
