@@ -51,8 +51,8 @@ const VideoPlayer = () => {
         });
         const data = await response.json();
 
-        setLikesCount(data.data.likesCount || 0);
-        setIsLiked(data.data.isLiked || false);
+        setLikesCount(data.data.likesCount);
+        setIsLiked(data.data.isLiked);
       } catch (error) {
         console.error("Error fetching like count:", error);
       }
