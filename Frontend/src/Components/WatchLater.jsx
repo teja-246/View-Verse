@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const WatchLater = () => {
@@ -46,19 +45,26 @@ const WatchLater = () => {
       ) : videos.length === 0 ? (
         <p className="text-gray-400">No videos in Watch Later.</p>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full max-w-6xl">
           {videos.map((video) => (
             <div
               key={video._id}
-              className="w-[180px] h-[120px] bg-gray-800 rounded-lg flex flex-col items-center justify-center shadow-md cursor-pointer text-center p-2 font-semibold text-sm hover:scale-105 hover:shadow-lg hover:bg-gray-700 transition"
+              className="bg-gray-800 rounded-lg shadow-md cursor-pointer hover:scale-105 hover:shadow-lg hover:bg-gray-700 transition overflow-hidden"
               onClick={() => handleVideoClick(video._id)}
             >
               <img
-                src={video.thumbnailUrl}
+                src={video.thumbnail}
                 alt={video.title}
-                className="w-full h-[80px] object-cover rounded-md mb-2"
+                className="w-full h-40 object-cover"
               />
-              <p className="truncate">{video.title}</p>
+              <div className="p-3">
+                <h3 className="text-base font-semibold truncate">
+                  {video.title}
+                </h3>
+                <p className="text-gray-400 text-sm truncate">
+                  {video.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>

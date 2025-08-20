@@ -63,7 +63,7 @@ const PlaylistVideos = () => {
                   alt={video.title}
                   className="w-full h-40 object-cover rounded-t-xl"
                 />
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                {/* <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-12 w-12 text-white"
@@ -78,13 +78,13 @@ const PlaylistVideos = () => {
                       d="M14.752 11.168l-6.504-3.752A1 1 0 007 8v8a1 1 0 001.248.96l6.504-3.752a1 1 0 000-1.792z"
                     />
                   </svg>
-                </div>
+                </div> */}
               </div>
               <div className="p-4">
                 <h2 className="text-lg font-semibold truncate">
                   {video.title}
                 </h2>
-                <p className="text-sm text-gray-400">{video.owner}</p>
+                <p className="text-sm text-gray-400">{video.description}</p>
               </div>
             </div>
           ))}

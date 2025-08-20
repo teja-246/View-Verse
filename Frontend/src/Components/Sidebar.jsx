@@ -5,7 +5,6 @@ import { X } from 'lucide-react';
 const Sidebar = ({ isOpen, toggleSidebar }) => {
     const menuItems = [
       { label: "Home", icon: "🏠" },
-      { label: "Trending", icon: "🔥" },
       { label: "Subscriptions", icon: "📺" },
       { label: "Playlists", icon: "📚" },
       { label: "History", icon: "⏰" },
