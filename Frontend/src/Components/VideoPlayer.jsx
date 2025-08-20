@@ -119,51 +119,65 @@ const VideoPlayer = () => {
   };
 
   const handleLikeToggle = async () => {
-  try {
-    const res = await fetch(`${Url}/likeVideo/${video._id}`, {
-      method: "POST",
-      credentials: "include"
-    });
-    const data = await res.json();
+    try {
+      const res = await fetch(`${Url}/likeVideo/${video._id}`, {
+        method: "POST",
+        credentials: "include",
+      });
+      const data = await res.json();
 
-    setIsDisliked(false);
-    setIsLiked(data.data.liked);
-    setLikesCount(data.data.likesCount);
-  } catch (error) {
-    console.error("Error toggling like:", error);
+      setIsDisliked(false);
+      setIsLiked(data.data.liked);
+      setLikesCount(data.data.likesCount);
+    } catch (error) {
+      console.error("Error toggling like:", error);
+    }
+  };
+
+  const handleDislikeToggle = async () => {
+    try {
+      const res = await fetch(`${Url}/dislikeVideo/${video._id}`, {
+        method: "POST",
+        credentials: "include",
+      });
+      const data = await res.json();
+
+      setIsDisliked(data.data.disliked);
+      setIsLiked(false);
+      setLikesCount(data.data.likesCount);
+    } catch (error) {
+      console.error("Error disliking video:", error);
+    }
+  };
+
+  const handleSubscribe = async () => {
+    console.log("subscribe clicked");
+    try {
+      const res = await fetch(`${Url}/subscribe/${video._id}`, {
+        method: "POST",
+        credentials: "include",
+      });
+      const data = await res.json();
+
+      setIsSubscribed(data.data.subscribed);
+    } catch (error) {
+      console.error("Error subscribing to channel:", error);
+    }
+  };
+
+  const addToWatchLater = async (videoId) => {
+  try {
+    await fetch(`${Url}/watchlater/${videoId}`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+    });
+    alert("Added to Watch Later!");
+  } catch (err) {
+    console.error("Error adding to watch later:", err);
   }
 };
 
-const handleDislikeToggle = async () => {
-  try {
-    const res = await fetch(`${Url}/dislikeVideo/${video._id}`, {
-      method: "POST",
-      credentials: "include"
-    });
-    const data = await res.json();
-
-    setIsDisliked(data.data.disliked);
-    setIsLiked(false);
-    setLikesCount(data.data.likesCount);
-  } catch (error) {
-    console.error("Error disliking video:", error);
-  }
-};
-
-const handleSubscribe = async () => {
-  console.log("subscribe clicked");
-  try {
-    const res = await fetch(`${Url}/subscribe/${video._id}`, {
-      method: "POST",
-      credentials: "include"
-    });
-    const data = await res.json();
-
-    setIsSubscribed(data.data.subscribed);
-  } catch (error) {
-    console.error("Error subscribing to channel:", error);
-  }
-};
 
   return (
     <div className="min-h-screen bg-slate-950 min-w-full">
@@ -209,10 +223,21 @@ const handleSubscribe = async () => {
                         {defaultVideo.channel.subscribers}
                       </p>
                     </div>
-                    <button className={`text-slate-900 px-4 py-2 rounded-full font-medium hover:bg-gray-200 ${isSubscribed ? "bg-red-500" : "bg-white"}`} onClick={handleSubscribe}>
+                    <button
+                      className={`text-slate-900 px-4 py-2 rounded-full font-medium hover:bg-gray-200 ${
+                        isSubscribed ? "bg-red-500" : "bg-white"
+                      }`}
+                      onClick={handleSubscribe}
+                    >
                       {isSubscribed ? "Subscribed" : "Subscribe"}
                     </button>
                     <PlaylistActionButton videoId={video?._id} />
+                    <button
+                      onClick={() => addToWatchLater(video._id)}
+                      className="bg-gray-700 px-2 py-1 rounded hover:bg-gray-600 text-xs"
+                    >
+                      Watch Later
+                    </button>
                   </div>
 
                   <div className="flex items-center gap-4">

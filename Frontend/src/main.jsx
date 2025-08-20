@@ -15,6 +15,7 @@ import VideoPlayer from "./Components/VideoPlayer.jsx";
 import PlaylistsPage from "./Components/PlaylistsPage.jsx";
 import PlaylistVideos from "./Components/PlaylistVideos.jsx";
 import AIContentGenerator from "./Components/AIContentGenerator.jsx";
+import WatchLater from "./Components/WatchLater.jsx";
 
 const router = createBrowserRouter([
   {
@@ -31,19 +32,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/about",
-    element: <About/>
+    element: <About />,
   },
   {
     path: "/playlists",
-    element: <PlaylistsPage/>
+    element: <PlaylistsPage />,
   },
   {
     path: "/playlists/:id",
-    element: <PlaylistVideos/>
+    element: <PlaylistVideos />,
   },
   {
     path: "/getUserDetails",
-    element: <GetuserDetails />
+    element: <GetuserDetails />,
   },
   {
     path: "/upload-video",
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
   {
     path: "/ai-generate",
     element: <AIContentGenerator />,
+  },
+  {
+    path: "/watchlater",
+    element: <WatchLater />,
   },
 ]);
 

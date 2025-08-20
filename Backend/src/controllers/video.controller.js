@@ -7,6 +7,7 @@ import { Comment } from "../models/comment.model.js";
 import { Playlist } from "../models/playlist.model.js";
 import { Like } from "../models/like.model.js";
 import { Subscription } from "../models/subscription.model.js";
+import { User } from "../models/user.model.js";
 
 const uploadVideo = asyncHandler(async (req, res) => {
     const { title, description } = req.body;
@@ -252,4 +253,43 @@ const getSubscriptions = asyncHandler(async (req, res) => {
     return res.json(new ApiResponse(200, subscriptions, "Subscriptions retrieved successfully"));
 });
 
-export { uploadVideo, getRequiredVideo, deleteVideo, editVideo, getVideos, addComment, getComments, createPlaylist, addToPLaylist, getPlaylists, getPlaylistVideos, toggleLike, getLikeCount, dislikeVideo, subscribeToChannel, getSubscribedOrNot, getSubscriptions }
+const getWatchLaterVideos = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id).populate("watchLater");
+  return res.json(
+    new ApiResponse(200, user.watchLater, "Watch Later videos fetched successfully")
+  );
+});
+
+const toggleWatchLater = asyncHandler(async (req, res) => {
+  const { videoId } = req.params;
+  const userId = req.user._id;
+
+  const video = await Video.findById(videoId);
+  if (!video) {
+    return res
+      .status(404)
+      .json(new ApiResponse(404, null, "Video not found"));
+  }
+
+  const user = await User.findById(userId);
+
+  const alreadySaved = user.watchLater.includes(videoId);
+
+  if (alreadySaved) {
+    user.watchLater = user.watchLater.filter(
+      (id) => id.toString() !== videoId
+    );
+    await user.save();
+    return res.json(
+      new ApiResponse(200, null, "Removed from Watch Later")
+    );
+  } else {
+    user.watchLater.push(videoId);
+    await user.save();
+    return res.json(
+      new ApiResponse(200, null, "Added to Watch Later")
+    );
+  }
+});
+
+export { uploadVideo, getRequiredVideo, deleteVideo, editVideo, getVideos, addComment, getComments, createPlaylist, addToPLaylist, getPlaylists, getPlaylistVideos, toggleLike, getLikeCount, dislikeVideo, subscribeToChannel, getSubscribedOrNot, getSubscriptions, getWatchLaterVideos, toggleWatchLater }

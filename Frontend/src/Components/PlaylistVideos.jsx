@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const PlaylistVideos = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const Url = import.meta.env.VITE_API_URL;
@@ -18,7 +19,7 @@ const PlaylistVideos = () => {
         });
         const result = await response.json();
         if (result.success) {
-          setVideos(result.data); // Extracting the array from "data"
+          setVideos(result.data);
         } else {
           console.error("Failed to fetch videos:", result.message);
         }
@@ -31,6 +32,10 @@ const PlaylistVideos = () => {
 
     fetchVideos();
   }, [id]);
+
+   const handleVideoClick = (videoId) => {
+    navigate(`/get-required-video/${videoId}`);
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
@@ -50,6 +55,7 @@ const PlaylistVideos = () => {
             <div
               key={video._id}
               className="bg-gray-800 rounded-xl overflow-hidden hover:scale-105 transition-transform cursor-pointer"
+              onClick={() => handleVideoClick(video._id)}
             >
               <div className="relative">
                 <img
