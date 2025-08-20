@@ -32,7 +32,7 @@ const PlaylistsPage = () => {
     fetchPlaylists();
   }, []);
 
-  const handlePlaylistClick = (id) => {
+  const handlePlaylistClick = async (id) => {
     navigate(`/playlists/${id}`);
   }
 
