@@ -89,7 +89,7 @@ router.route("/likeVideo/:id").post(verifyJWT, toggleLike)
 router.route("/dislikeVideo/:id").post(verifyJWT, dislikeVideo)
 router.route("/subscribe/:id").post(verifyJWT, subscribeToChannel)
 router.route("/subscribedOrNot/:id").get(verifyJWT, getSubscribedOrNot)
-router.route("/get-subscriptions/:id").get(verifyJWT, getSubscriptions)
+router.route("/get-subscriptions").get(verifyJWT, getSubscriptions)
 router.route("/watchlater").get(verifyJWT, getWatchLaterVideos);
 router.route("/watchlater/:videoId").post(verifyJWT, toggleWatchLater);
 

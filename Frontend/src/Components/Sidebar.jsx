@@ -29,6 +29,10 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         console.log("Watch Later clicked");
         navigate("/watchlater");
       }
+      if (item.label === "Subscriptions") {
+        console.log("Subscriptions clicked");
+        navigate("/subscriptions");
+      }
     };
   
     return (

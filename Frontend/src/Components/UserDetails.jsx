@@ -10,7 +10,6 @@ const UserDetails = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        // console.log("Current cookies:", document.cookie);
 
         const response = await fetch(
           `${Url}/current-user`,
@@ -23,9 +22,6 @@ const UserDetails = () => {
           }
         );
 
-        // Log the full response for debugging
-        // console.log("Full response:", response);
-
         if (!response.ok) {
           const errorData = await response.text();
           console.log("Error response body:", errorData);
@@ -36,7 +32,6 @@ const UserDetails = () => {
         if (result.data) {
           setUser(result.data);
         }
-        // console.log("Success response:", result);
       } catch (error) {
         console.error("Error fetching user data:", error);
         const defaultUser = { fullName: "Guest User", email: "Login to view details" };
@@ -47,10 +42,9 @@ const UserDetails = () => {
     fetchUser();
   }, []);
 
-  const handleCardClick = () => {
-    // console.log("Navigating to user details page");
-    navigate("/getUserDetails");
-  };
+  // const handleCardClick = () => {
+  //   navigate("/getUserDetails");
+  // };
 
   return (
     <div className="relative inline-block">
@@ -59,7 +53,6 @@ const UserDetails = () => {
         className="p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700 transition-colors"
         onMouseEnter={() => setShowHoverCard(true)}
         onMouseLeave={() => setShowHoverCard(false)}
-        onClick={handleCardClick}
       >
         <Userimg className="w-6 h-6 text-white" />
       </div>

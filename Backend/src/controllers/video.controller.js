@@ -249,9 +249,19 @@ const getSubscribedOrNot = asyncHandler(async (req, res) => {
 
 const getSubscriptions = asyncHandler(async (req, res) => {
     const userId = req.user._id;
-    const subscriptions = await Subscription.find({ subscriber: userId }).populate("channel");
-    return res.json(new ApiResponse(200, subscriptions, "Subscriptions retrieved successfully"));
+    console.log("req.user 👉", req.user);
+    const subscriptions = await Subscription.find({ subscriber: userId })
+        .populate("channel", "username description");
+
+    const formatted = subscriptions.map(sub => ({
+        _id: sub._id,
+        username: sub.channel.username,
+        description: sub.channel.description
+    }));
+
+    return res.json(new ApiResponse(200, formatted, "Subscriptions retrieved successfully"));
 });
+
 
 const getWatchLaterVideos = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id).populate("watchLater");

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-
 const AuthPage = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
@@ -22,60 +21,56 @@ const AuthPage = () => {
     {
       if (isLogin) {
         try {
-            // Log pre-login cookies
-            console.log("Cookies before login:", document.cookie);
+          // Log pre-login cookies
+          console.log("Cookies before login:", document.cookie);
 
-            const response = await fetch(
-                `${Url}/login`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(formData),
-                    credentials: "include",
-                }
-            );
+          const response = await fetch(`${Url}/login`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+            credentials: "include",
+          });
 
-            // Log response headers to check for Set-Cookie
-            console.log("Response headers:", Object.fromEntries(response.headers));
-            
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error("Login failed:", errorText);
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+          // Log response headers to check for Set-Cookie
+          console.log(
+            "Response headers:",
+            Object.fromEntries(response.headers)
+          );
 
-            const result = await response.json();
-            console.log("Server response:", result);
+          if (!response.ok) {
+            const errorText = await response.text();
+            console.error("Login failed:", errorText);
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
 
-            // Log cookies after login
-            console.log("Cookies after login:", document.cookie);
+          const result = await response.json();
+          console.log("Server response:", result);
 
-            // Add a small delay before navigation to ensure logs are visible
-            setTimeout(() => {
-                navigate("/main");
-            }, 1000);
+          // Log cookies after login
+          console.log("Cookies after login:", document.cookie);
 
+          // Add a small delay before navigation to ensure logs are visible
+          setTimeout(() => {
+            navigate("/main");
+          }, 1000);
         } catch (error) {
-            console.error("Error submitting form:", error);
+          console.error("Error submitting form:", error);
         }
+      }
     }
-  }
     {
       if (!isLogin) {
         try {
-          const response = await fetch(
-            `${Url}/register`,
-            {
-              method: "POST",
-              credentials: "include",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(formData),
-            }
-          );
+          const response = await fetch(`${Url}/register`, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          });
 
           const result = await response.json();
           console.log("Server response:", result);
@@ -95,20 +90,27 @@ const AuthPage = () => {
       [name]: value,
     }));
   };
-  
 
   return (
-    
     <div className="h-screen w-screen">
       <div className="min-h-screen relative flex items-center justify-center p-4 bg-black">
+        <div className="text-2xl text-white absolute top-0 left-0 z-10">
+          <p>May use the following credentials to login and test:</p>
+          <p>Email address : none@gmail.com</p>
+          <p>Password : 12345678</p>
+        </div>
         <div className="max-w-md w-full space-y-8 bg-gray-900 p-8 rounded-lg shadow-xl relative z-10 border border-white">
           <div className="text-center">
             <span className="flex items-center justify-center space-x-2 mb-4">
-            <p className="text-[rgba(211,255,97,1)] text-3xl font-spaceMono">View</p>
-            <p className="text-white text-3xl font-spaceMono">Verse</p>
+              <p className="text-[rgba(211,255,97,1)] text-3xl font-spaceMono">
+                View
+              </p>
+              <p className="text-white text-3xl font-spaceMono">Verse</p>
             </span>
             <h2 className="text-lg text-white">
-              {isLogin ? "Sign in to continue with ViewVerse" : "Create Account to continue with ViewVerse"}
+              {isLogin
+                ? "Sign in to continue with ViewVerse"
+                : "Create Account to continue with ViewVerse"}
             </h2>
           </div>
 

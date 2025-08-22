@@ -9,7 +9,6 @@ const VideoUploadPage = () => {
     const [thumbnail, setThumbnail] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    // AI Loading states
     const [aiLoadingTitle, setAiLoadingTitle] = useState(false);
     const [aiLoadingDescription, setAiLoadingDescription] = useState(false);
 
@@ -52,7 +51,6 @@ const VideoUploadPage = () => {
         }
     };
 
-    // AI Parse function
     const handleAIParse = async (field) => {
         const textToParse = field === 'title' ? title : description;
         if (!textToParse) return alert('Please enter text before parsing!');
@@ -93,7 +91,6 @@ const VideoUploadPage = () => {
             <div className="w-full max-w-md bg-gray-800 rounded-lg shadow-lg p-6">
                 <h2 className="text-2xl font-bold mb-4">Upload Video</h2>
                 <form onSubmit={handleSubmit}>
-                    {/* Title */}
                     <div className="mb-4">
                         <label className="block text-sm font-medium mb-2" htmlFor="title">
                             Title
@@ -112,7 +109,7 @@ const VideoUploadPage = () => {
                                 onClick={() => handleAIParse('title')}
                                 disabled={aiLoadingTitle}
                                 className={`px-3 py-2 rounded-md text-sm ${
-                                    aiLoadingTitle ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+                                    aiLoadingTitle ? 'bg-blue-400 cursor-not-allowed' : 'bg-[rgba(211,255,97,1)] hover:bg-[#e7ffa9] transition-colors text-black'
                                 }`}
                             >
                                 {aiLoadingTitle ? 'Parsing...' : 'AI Parse'}
@@ -139,7 +136,7 @@ const VideoUploadPage = () => {
                                 onClick={() => handleAIParse('description')}
                                 disabled={aiLoadingDescription}
                                 className={`px-3 py-2 rounded-md text-sm ${
-                                    aiLoadingDescription ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+                                    aiLoadingDescription ? 'bg-blue-400 cursor-not-allowed' : 'bg-[rgba(211,255,97,1)] hover:bg-[#e7ffa9] transition-colors text-black'
                                 }`}
                             >
                                 {aiLoadingDescription ? 'Parsing...' : 'AI Parse'}
@@ -177,15 +174,14 @@ const VideoUploadPage = () => {
                         />
                     </div>
 
-                    {/* Upload Button */}
                     <button
                         type="submit"
                         disabled={loading}
-                        className={`w-full ${
+                        className={`w-full text-black ${
                             loading 
-                                ? 'bg-blue-400 cursor-not-allowed' 
-                                : 'bg-blue-600 hover:bg-blue-700'
-                        } text-white font-bold py-2 px-4 rounded-md`}
+                                ? 'bg-blue-400 cursor-not-allowed text-black' 
+                                : 'bg-[rgba(211,255,97,1)] hover:bg-[#e7ffa9] transition-colors text-black'
+                        } font-bold py-2 px-4 rounded-md`}
                     >
                         {loading ? 'Uploading...' : 'Upload'}
                     </button>

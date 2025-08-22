@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Url = "https://view-verse.onrender.com/api/v1"; // Update this if needed
+const Url = import.meta.env.VITE_API_URL;
 
 const AIContentGenerator = () => {
   const [inputText, setInputText] = useState("");
@@ -109,9 +109,9 @@ const AIContentGenerator = () => {
             disabled={loading}
             className={`w-full ${
               loading
-                ? "bg-blue-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
-            } text-white font-bold py-2 px-4 rounded-md`}
+                ? "bg-[rgba(211,255,97,1)] cursor-not-allowed"
+                : "bg-[rgba(211,255,97,1)] hover:bg-[rgba(211,255,97,0.8)]"
+            } text-black font-bold py-2 px-4 rounded-md`}
           >
             {loading ? "Generating..." : "Generate"}
           </button>

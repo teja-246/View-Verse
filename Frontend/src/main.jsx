@@ -16,6 +16,7 @@ import PlaylistsPage from "./Components/PlaylistsPage.jsx";
 import PlaylistVideos from "./Components/PlaylistVideos.jsx";
 import AIContentGenerator from "./Components/AIContentGenerator.jsx";
 import WatchLater from "./Components/WatchLater.jsx";
+import SubscriptionsPage from "./Components/SubscriptionsPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
   {
     path: "/watchlater",
     element: <WatchLater />,
+  },
+  {
+    path: "/subscriptions",
+    element: <SubscriptionsPage />,
   },
 ]);
 

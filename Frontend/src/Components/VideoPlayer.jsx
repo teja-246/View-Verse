@@ -151,7 +151,6 @@ const VideoPlayer = () => {
   };
 
   const handleSubscribe = async () => {
-    console.log("subscribe clicked");
     try {
       const res = await fetch(`${Url}/subscribe/${video._id}`, {
         method: "POST",
