@@ -21,7 +21,6 @@ const AuthPage = () => {
     {
       if (isLogin) {
         try {
-          // Log pre-login cookies
           console.log("Cookies before login:", document.cookie);
 
           const response = await fetch(`${Url}/login`, {

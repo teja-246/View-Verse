@@ -16,7 +16,7 @@ const AIContentGenerator = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${Url}/users/generate-content`, {
+      const response = await fetch(`${Url}/generate-content`, {
         method: "POST",
         credentials: "include",
         headers: {

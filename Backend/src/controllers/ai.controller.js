@@ -1,15 +1,12 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
-import { ApiResponse } from "../utils/ApiResponse.js"
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
+import { ApiResponse } from "../utils/ApiResponse.js";
+import { GoogleGenAI} from "@google/genai";
 const textParser = asyncHandler(async (req, res) => {
     const GEMINI_API_KEY = process.env.GEMINI_API_KEY
     const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
-
     const { text } = req.body;
-
     if (text === "") {
         throw new ApiError(400, "Text is required")
     }
@@ -38,72 +35,81 @@ const textParser = asyncHandler(async (req, res) => {
     return res.json(new ApiResponse(200, data, "Text parsed successfully"))
 });
 
-const textToVideo = asyncHandler(async (req, res) => {
-    const api_key = process.env.TEXT_TO_VIDEO_API_KEY;
-    const { script } = req.body;
-
-    if (!script || script.trim() === "") {
-        throw new ApiError(400, "Script is required");
-    }
-
-    const url = 'https://text-to-video.p.rapidapi.com/v3/process_text_and_search_media';
-
-    const options = {
-        method: 'POST',
-        headers: {
-            'x-rapidapi-key': api_key,
-            'x-rapidapi-host': 'text-to-video.p.rapidapi.com',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({  // ✅ Convert body to JSON string
-            script: script,
-            dimension: '16:9'
-        })
-    };
-
-    try {
-        const response = await fetch(url, options);
-        const result = await response.json();  // ✅ parse as JSON if the API returns JSON
-        console.log(result);
-
-        return res.json(new ApiResponse(200, response, "Text converted to video successfully"));
-    }
-    catch (error) {
-        console.error("Error converting text to video:", error);
-        throw new ApiError(500, "Error converting text to video");
-    }
-});
-
 const autoContentGenerate = asyncHandler(async (req, res) => {
-  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  const ai = new GoogleGenAI({apiKey: process.env.GEMINI_API_KEY});
   const { prompt } = req.body;
 
-  try {
-    const model = genAI.getGenerativeModel({ model: "models/gemini-1.5-pro-latest" });
-
-    const result = await model.generateContent({
-      contents: [
-        {
-          parts: [
-            {
-              text: `You are a JavaScript expert that outputs only MathBox code for rendering mathematical visualizations in a browser. Wrap all code in a single function(container) { ... } block.\n\nGenerate a MathBox animation that: ${prompt}`
-            }
-          ]
-        }
-      ]
-    });
-
-    const code = result.response.text();
-    res.json({ code });
-  } catch (err) {
-    console.error("Gemini error:", err.message);
-    res.status(500).json({ error: "Code generation failed" });
+  if (prompt === ""){
+    throw new ApiError(400, "Text is required")
   }
+
+  let operation = await ai.models.generateVideos({
+    model: "veo-3.0-generate-preview",
+    prompt: prompt,
+  })
+
+  while(!operation.done){
+    console.log("waiting for video generation to complete");
+    await new Promise((resolve) => setTimeout(resolve, 10000));
+    operation = await ai.operations.getVideosOperation({
+      operation: operation,
+    });
+  }
+
+  ai.files.download({
+    file: operation.response.generatedVideos[0].video,
+    downloadPath: "./downloads/video.mp4",
+  })
+  console.log("Generated video saved");
+  return res.json(new ApiResponse(200, operation.response.generatedVideos[0], "Content generated successfully"));
 });
 
+const textGenerate = asyncHandler(async (req,res) =>{
+    const ai = new GoogleGenAI({apiKey: process.env.GEMINI_API_KEY});
+    const { prompt } = req.body;
 
+    if (prompt === ""){
+        throw new ApiError(400, "Text is required")
+    }
 
+    let operation = await ai.models.generateText({
+        model: "text-bison-001",
+        prompt: `Generate a suitable Title and Description for the following content and give it in the form of a json with title first and description next: ${prompt}`,
+    })
 
+    while(!operation.done){
+        console.log("waiting for text generation to complete");
+        await new Promise((resolve) => setTimeout(resolve, 10000));
+        operation = await ai.operations.getTextOperation({
+            operation: operation,
+        });
+    }
 
+    return res.json(new ApiResponse(200, operation.response.generatedText, "Texts generated successfully"));
+});
 
-export { textParser, textToVideo, autoContentGenerate }
+const thumbnailGenerate = asyncHandler(async (req,res) =>{
+    const ai = new GoogleGenAI({apiKey: process.env.GEMINI_API_KEY});
+    const { prompt } = req.body;
+
+    if (prompt === ""){
+        throw new ApiError(400, "Text is required")
+    }
+
+    let operation = await ai.models.generateImage({
+        model: "image-bison-001",
+        prompt: `Generate a suitable image for the thumbnail of the following content: ${prompt}`,
+    })
+
+    while(!operation.done){
+        console.log("waiting for image generation to complete");
+        await new Promise((resolve) => setTimeout(resolve, 10000));
+        operation = await ai.operations.getImageOperation({
+            operation: operation,
+        });
+    }
+
+    return res.json(new ApiResponse(200, operation.response.generatedImage, "Thumbnail generated successfully"));
+});
+
+export { textParser, autoContentGenerate, textGenerate, thumbnailGenerate };
