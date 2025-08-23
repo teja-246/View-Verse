@@ -66,7 +66,7 @@ const VideoPlayer = () => {
   useEffect(() => {
     const fetchSubscriptionStatus = async () => {
       try {
-        const response = await fetch(`${Url}/subscribedOrNot/${video?.owner}`, {
+        const response = await fetch(`${Url}/subscribedOrNot/${video?.owner._id}`, {
           method: "GET",
           credentials: "include",
         });
@@ -152,7 +152,7 @@ const VideoPlayer = () => {
 
   const handleSubscribe = async () => {
     try {
-      const res = await fetch(`${Url}/subscribe/${video._id}`, {
+      const res = await fetch(`${Url}/subscribe/${video.owner?._id}`, {
         method: "POST",
         credentials: "include",
       });

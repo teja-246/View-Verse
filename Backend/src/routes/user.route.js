@@ -33,7 +33,7 @@ import {
     getWatchLaterVideos,
     toggleWatchLater
 } from "../controllers/video.controller.js";
-import { autoContentGenerate, textParser, textToVideo } from "../controllers/ai.controller.js";
+import { autoContentGenerate, textParser } from "../controllers/ai.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { get } from "mongoose";
@@ -96,7 +96,6 @@ router.route("/watchlater/:videoId").post(verifyJWT, toggleWatchLater);
 
 // AI routes
 router.route("/parse-text").post(verifyJWT, textParser)
-router.route("/text-to-video").post(verifyJWT, textToVideo)
 router.route("/generate-content").post(verifyJWT, autoContentGenerate)
 
 export default router

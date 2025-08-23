@@ -220,46 +220,42 @@ const dislikeVideo = asyncHandler(async (req, res) => {
 });
 
 const subscribeToChannel = asyncHandler(async (req, res) => {
-    const { channelId } = req.params;
+    const { id } = req.params;
+    console.log(id);
+    
     const userId = req.user._id;
 
     // Check if the user is already subscribed
-    const existingSubscription = await Subscription.findOne({ channel: channelId, subscriber: userId });
+    const existingSubscription = await Subscription.findOne({ channel: id, subscriber: userId });
 
     if (existingSubscription) {
         // Unsubscribe
-        await existingSubscription.deleteOne();
+        await existingSubscription.deleteOne({ subscriber: userId });
         return res.json(new ApiResponse(200, { subscribed: false }, "Unsubscribed successfully"));
     } else {
         // Subscribe
-        const subscription = new Subscription({ channel: channelId, subscriber: userId });
+        const subscription = new Subscription({ channel: id, subscriber: userId });
         await subscription.save();
         return res.json(new ApiResponse(200, { subscribed: true }, "Subscribed successfully"));
     }
 });
 
 const getSubscribedOrNot = asyncHandler(async (req, res) => {
-    const { channelId } = req.params;
+    const { id } = req.params;
     const userId = req.user._id;
 
-    const existingSubscription = await Subscription.findOne({ channel: channelId, subscriber: userId });
+    const existingSubscription = await Subscription.findOne({ channel: id, subscriber: userId });
 
     return res.json(new ApiResponse(200, { subscribed: !!existingSubscription }, "Subscription status retrieved successfully"));
 });
 
 const getSubscriptions = asyncHandler(async (req, res) => {
     const userId = req.user._id;
-    console.log("req.user 👉", req.user);
+    console.log("req.user", req.user);
     const subscriptions = await Subscription.find({ subscriber: userId })
-        .populate("channel", "username description");
+        .populate("channel");
 
-    const formatted = subscriptions.map(sub => ({
-        _id: sub._id,
-        username: sub.channel.username,
-        description: sub.channel.description
-    }));
-
-    return res.json(new ApiResponse(200, formatted, "Subscriptions retrieved successfully"));
+    return res.json(new ApiResponse(200, subscriptions, "Subscriptions retrieved successfully"));
 });
 
 
