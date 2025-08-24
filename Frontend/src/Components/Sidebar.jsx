@@ -33,6 +33,10 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         console.log("Subscriptions clicked");
         navigate("/subscriptions");
       }
+      if (item.label === "Liked Videos") {
+        console.log("Liked Videos clicked");
+        navigate("/liked-videos");
+      }
     };
   
     return (

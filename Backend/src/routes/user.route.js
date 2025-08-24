@@ -31,7 +31,8 @@ import {
     getSubscribedOrNot,
     getSubscriptions,
     getWatchLaterVideos,
-    toggleWatchLater
+    toggleWatchLater,
+    likedVideos
 } from "../controllers/video.controller.js";
 import { autoContentGenerate, textParser } from "../controllers/ai.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
@@ -92,6 +93,7 @@ router.route("/subscribedOrNot/:id").get(verifyJWT, getSubscribedOrNot)
 router.route("/get-subscriptions").get(verifyJWT, getSubscriptions)
 router.route("/watchlater").get(verifyJWT, getWatchLaterVideos);
 router.route("/watchlater/:videoId").post(verifyJWT, toggleWatchLater);
+router.route("/liked-videos").get(verifyJWT, likedVideos);
 
 
 // AI routes

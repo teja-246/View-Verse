@@ -141,26 +141,26 @@ const getPlaylistVideos = asyncHandler(async (req, res) => {
 })
 
 const toggleLike = asyncHandler(async (req, res) => {
-    const { videoId } = req.params;
-    const existingLike = await Like.findOne({ video: videoId, likedBy: req.user._id });
+    const { id } = req.params;
+    const existingLike = await Like.findOne({ video: id, likedBy: req.user._id });
 
     if (existingLike) {
         // Unlike the video
         await existingLike.deleteOne();
 
-        const newCount = await Like.countDocuments({ video: videoId });
+        const newCount = await Like.countDocuments({ video: id });
         return res.json(
             new ApiResponse(200, { liked: false, likesCount: newCount }, "Video unliked successfully")
         );
     } else {
         // Like the video
         const like = new Like({
-            video: videoId,
+            video: id,
             likedBy: req.user._id
         });
         await like.save();
 
-        const newCount = await Like.countDocuments({ video: videoId });
+        const newCount = await Like.countDocuments({ video: id });
         return res.json(
             new ApiResponse(200, { liked: true, likesCount: newCount }, "Video liked successfully")
         );
@@ -169,9 +169,8 @@ const toggleLike = asyncHandler(async (req, res) => {
 
 const getLikeCount = asyncHandler(async (req, res) => {
     const videoId = req.params.id;
-    const userId = req.user?._id; // from your auth middleware
+    const userId = req.user?._id; 
 
-    // Total likes
     const likeCount = await Like.countDocuments({ video: videoId });
 
     // Check if the logged-in user has liked this video
@@ -298,4 +297,10 @@ const toggleWatchLater = asyncHandler(async (req, res) => {
   }
 });
 
-export { uploadVideo, getRequiredVideo, deleteVideo, editVideo, getVideos, addComment, getComments, createPlaylist, addToPLaylist, getPlaylists, getPlaylistVideos, toggleLike, getLikeCount, dislikeVideo, subscribeToChannel, getSubscribedOrNot, getSubscriptions, getWatchLaterVideos, toggleWatchLater }
+const likedVideos = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const likes = await Like.find({ likedBy: userId }).populate("video");
+  return res.json(new ApiResponse(200, likes, "Liked videos retrieved successfully"));
+});
+
+export { uploadVideo, getRequiredVideo, deleteVideo, editVideo, getVideos, addComment, getComments, createPlaylist, addToPLaylist, getPlaylists, getPlaylistVideos, toggleLike, getLikeCount, dislikeVideo, subscribeToChannel, getSubscribedOrNot, getSubscriptions, getWatchLaterVideos, toggleWatchLater, likedVideos }
