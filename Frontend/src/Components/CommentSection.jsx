@@ -32,10 +32,7 @@ const CommentSection = ({videoId}) => {
 }, [videoId]);
 
   const handlePostComment = async() => {
-    if (newComment.trim()) {
-      setComments([{ owner: {username : "You"} , content: newComment }, ...comments]);
-      setNewComment("");
-    }
+    if (!newComment.trim()) return;
 
     try {
       const response = await fetch(`${Url}/add-comment/${videoId}`, {
@@ -53,6 +50,11 @@ const CommentSection = ({videoId}) => {
   
       const result = await response.json();
       console.log("Comment added:", result);
+
+      if (result.success) {
+        setComments([result.data, ...comments]);
+        setNewComment("");
+      }
     } catch (error) {
       console.error("Error adding comment:", error);
     }

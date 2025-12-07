@@ -28,8 +28,8 @@ const uploadVideo = asyncHandler(async (req, res) => {
     const thumbnail = await uploadOnCloudinary(thumbnailLocalPath)
 
     const video = new Video({
-        videoFile : videoFile.url,
-        thumbnail : thumbnail.url,
+        videoFile: videoFile.url,
+        thumbnail: thumbnail.url,
         title,
         description,
         owner: req.user._id
@@ -94,7 +94,8 @@ const addComment = asyncHandler(async (req, res) => {
         owner: req.user._id
     })
     await comment.save()
-    return res.json(new ApiResponse(200, video, "Comment added successfully"))
+    const populatedComment = await Comment.findById(comment._id).populate("owner", "username avatar");
+    return res.json(new ApiResponse(200, populatedComment, "Comment added successfully"))
 })
 
 const getComments = asyncHandler(async (req, res) => {
@@ -169,7 +170,7 @@ const toggleLike = asyncHandler(async (req, res) => {
 
 const getLikeCount = asyncHandler(async (req, res) => {
     const videoId = req.params.id;
-    const userId = req.user?._id; 
+    const userId = req.user?._id;
 
     const likeCount = await Like.countDocuments({ video: videoId });
 
@@ -221,7 +222,7 @@ const dislikeVideo = asyncHandler(async (req, res) => {
 const subscribeToChannel = asyncHandler(async (req, res) => {
     const { id } = req.params;
     console.log(id);
-    
+
     const userId = req.user._id;
 
     // Check if the user is already subscribed
@@ -259,48 +260,48 @@ const getSubscriptions = asyncHandler(async (req, res) => {
 
 
 const getWatchLaterVideos = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id).populate("watchLater");
-  return res.json(
-    new ApiResponse(200, user.watchLater, "Watch Later videos fetched successfully")
-  );
+    const user = await User.findById(req.user._id).populate("watchLater");
+    return res.json(
+        new ApiResponse(200, user.watchLater, "Watch Later videos fetched successfully")
+    );
 });
 
 const toggleWatchLater = asyncHandler(async (req, res) => {
-  const { videoId } = req.params;
-  const userId = req.user._id;
+    const { videoId } = req.params;
+    const userId = req.user._id;
 
-  const video = await Video.findById(videoId);
-  if (!video) {
-    return res
-      .status(404)
-      .json(new ApiResponse(404, null, "Video not found"));
-  }
+    const video = await Video.findById(videoId);
+    if (!video) {
+        return res
+            .status(404)
+            .json(new ApiResponse(404, null, "Video not found"));
+    }
 
-  const user = await User.findById(userId);
+    const user = await User.findById(userId);
 
-  const alreadySaved = user.watchLater.includes(videoId);
+    const alreadySaved = user.watchLater.includes(videoId);
 
-  if (alreadySaved) {
-    user.watchLater = user.watchLater.filter(
-      (id) => id.toString() !== videoId
-    );
-    await user.save();
-    return res.json(
-      new ApiResponse(200, null, "Removed from Watch Later")
-    );
-  } else {
-    user.watchLater.push(videoId);
-    await user.save();
-    return res.json(
-      new ApiResponse(200, null, "Added to Watch Later")
-    );
-  }
+    if (alreadySaved) {
+        user.watchLater = user.watchLater.filter(
+            (id) => id.toString() !== videoId
+        );
+        await user.save();
+        return res.json(
+            new ApiResponse(200, null, "Removed from Watch Later")
+        );
+    } else {
+        user.watchLater.push(videoId);
+        await user.save();
+        return res.json(
+            new ApiResponse(200, null, "Added to Watch Later")
+        );
+    }
 });
 
 const likedVideos = asyncHandler(async (req, res) => {
-  const userId = req.user._id;
-  const likes = await Like.find({ likedBy: userId }).populate("video");
-  return res.json(new ApiResponse(200, likes, "Liked videos retrieved successfully"));
+    const userId = req.user._id;
+    const likes = await Like.find({ likedBy: userId }).populate("video");
+    return res.json(new ApiResponse(200, likes, "Liked videos retrieved successfully"));
 });
 
 export { uploadVideo, getRequiredVideo, deleteVideo, editVideo, getVideos, addComment, getComments, createPlaylist, addToPLaylist, getPlaylists, getPlaylistVideos, toggleLike, getLikeCount, dislikeVideo, subscribeToChannel, getSubscribedOrNot, getSubscriptions, getWatchLaterVideos, toggleWatchLater, likedVideos }
