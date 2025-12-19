@@ -32,7 +32,8 @@ import {
     getSubscriptions,
     getWatchLaterVideos,
     toggleWatchLater,
-    likedVideos
+    likedVideos,
+    searchVideos
 } from "../controllers/video.controller.js";
 import { autoContentGenerate, textParser } from "../controllers/ai.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
@@ -77,6 +78,7 @@ router.route("/upload-video").post(verifyJWT, upload.fields([
 ]), uploadVideo)
 router.route("/get-required-video/:id").get(getRequiredVideo)
 router.route("/get-videos").get(getVideos)
+router.route("/search-videos").get(searchVideos)
 router.route("/delete-video/:id").delete(verifyJWT, deleteVideo)
 router.route("/edit-video/:id").patch(verifyJWT, editVideo)
 router.route("/add-comment/:id").post(verifyJWT, addComment)

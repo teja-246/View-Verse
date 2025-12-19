@@ -1,15 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
     Search,
     Menu,
     Upload,
   } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UserDetails from "./UserDetails";
 import LogoutButton from "./Logout";
 
 
 const Navbar = ({ toggleSidebar }) => {
+    const [searchQuery, setSearchQuery] = useState("");
+    const navigate = useNavigate();
+
+    const handleSearch = () => {
+        if(searchQuery.trim()){
+            navigate(`/search/${searchQuery}`);
+        }
+    }
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+          handleSearch();
+        }
+    };
+
     return (
       <nav className="sticky top-0 bg-black text-white p-4 z-50">
         <div className="flex items-center justify-between max-w-7xl mx-auto">
@@ -18,7 +33,7 @@ const Navbar = ({ toggleSidebar }) => {
               className="h-6 w-6 cursor-pointer hover:text-blue-500 transition-colors"
               onClick={toggleSidebar}
             />
-            <Link to="/about">
+            <Link to="/main">
             <span className="flex items-center justify-center space-x-2 mb-4">
               <h1 className="text-3xl text-[rgba(211,255,97,1)] font-bold">View</h1>
               <h1 className="text-3xl text-white font-bold">Verse</h1>
@@ -31,9 +46,15 @@ const Navbar = ({ toggleSidebar }) => {
               <input
                 type="text"
                 placeholder="Search videos..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
                 className="w-full bg-slate-900 border-white border-[1px] rounded-full py-2 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-white text-white"
               />
-              <Search className="absolute left-3 top-2.5 h-5 w-5 text-white" />
+              <Search 
+                className="absolute left-3 top-2.5 h-5 w-5 text-white cursor-pointer" 
+                onClick={handleSearch}
+              />
             </div>
           </div>
   

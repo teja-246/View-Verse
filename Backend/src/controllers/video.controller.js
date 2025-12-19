@@ -304,4 +304,23 @@ const likedVideos = asyncHandler(async (req, res) => {
     return res.json(new ApiResponse(200, likes, "Liked videos retrieved successfully"));
 });
 
-export { uploadVideo, getRequiredVideo, deleteVideo, editVideo, getVideos, addComment, getComments, createPlaylist, addToPLaylist, getPlaylists, getPlaylistVideos, toggleLike, getLikeCount, dislikeVideo, subscribeToChannel, getSubscribedOrNot, getSubscriptions, getWatchLaterVideos, toggleWatchLater, likedVideos }
+
+
+const searchVideos = asyncHandler(async (req, res) => {
+    const { query } = req.query;
+    // Temporary logging
+
+
+    if (!query || query.trim() === "") {
+        throw new ApiError(400, "Search query is required");
+    }
+
+    const videos = await Video.find({
+        title: { $regex: query, $options: "i" }
+    }).populate("owner", "username avatar");
+
+    return res.json(new ApiResponse(200, videos, "Videos found successfully"));
+});
+
+
+export { uploadVideo, getRequiredVideo, deleteVideo, editVideo, getVideos, addComment, getComments, createPlaylist, addToPLaylist, getPlaylists, getPlaylistVideos, toggleLike, getLikeCount, dislikeVideo, subscribeToChannel, getSubscribedOrNot, getSubscriptions, getWatchLaterVideos, toggleWatchLater, likedVideos, searchVideos }

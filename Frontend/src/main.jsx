@@ -3,7 +3,10 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import "./input.css";
+import "./input.css";
 import App from "./App.jsx";
+import Navbar from "./Components/Navbar.jsx";
+import Sidebar from "./Components/Sidebar.jsx";
 import AuthPage from "./Components/Login.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import About from "./Components/About.jsx";
@@ -18,6 +21,8 @@ import AIContentGenerator from "./Components/AIContentGenerator.jsx";
 import WatchLater from "./Components/WatchLater.jsx";
 import SubscriptionsPage from "./Components/SubscriptionsPage.jsx";
 import LikedVideos from "./Components/LikedVideos.jsx";
+import SearchResults from "./Components/SearchResults.jsx";
+
 
 const router = createBrowserRouter([
   {
@@ -69,8 +74,21 @@ const router = createBrowserRouter([
     element: <SubscriptionsPage />,
   },
   {
-    path: "/liked-videos",
     element: <LikedVideos />,
+  },
+  {
+    path: "/search/:query",
+    element: (
+        <div className="min-h-screen bg-slate-950 min-w-full">
+            <Navbar />
+            <div className="flex pt-4">
+                <Sidebar />
+                <main className="w-full lg:ml-64 transition-all duration-300">
+                    <SearchResults />
+                </main>
+            </div>
+        </div>
+    ),
   },
 ]);
 
